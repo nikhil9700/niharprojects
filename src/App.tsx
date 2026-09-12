@@ -387,7 +387,7 @@ function HomePage() {
             </a>
             <a className="contact-row" href={site.github} target="_blank" rel="noreferrer">
               <span className="contact-label">GitHub</span>
-              <span className="contact-value">niharprojects</span>
+              <span className="contact-value">niharproject/niharprojects</span>
             </a>
             <a className="contact-row" href={site.domain} target="_blank" rel="noreferrer">
               <span className="contact-label">Website</span>

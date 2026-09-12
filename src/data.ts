@@ -10,7 +10,7 @@ export const site = {
   phoneHref: 'tel:+918977457003',
   whatsapp: 'https://wa.me/918977457003',
   linkedin: 'https://www.linkedin.com/in/thakur-nihar-singh-52766a436/',
-  github: 'https://github.com/nikhil9700/niharprojects',
+  github: 'https://github.com/niharproject/niharprojects',
   domain: 'https://niharprojects.com',
   headline: 'Commerce. Data. Software.',
   tagline:

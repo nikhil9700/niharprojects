@@ -17,4 +17,4 @@ Delete the parking-page CNAME and the URL redirect, then add:
 | A | @ | 185.199.109.153 |
 | A | @ | 185.199.110.153 |
 | A | @ | 185.199.111.153 |
-| CNAME | www | nikhil9700.github.io. |
+| CNAME | www | niharproject.github.io. |
