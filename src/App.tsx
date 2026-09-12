@@ -57,6 +57,9 @@ function Nav() {
         <a href="/#work" onClick={() => setOpen(false)}>
           Studios
         </a>
+        <a href="/#projects" onClick={() => setOpen(false)}>
+          Projects
+        </a>
         <Link to="/resume" onClick={() => setOpen(false)}>
           Resume
         </Link>
@@ -271,10 +274,26 @@ function HomePage() {
         </div>
       </section>
 
-      <section className="section alt" id="work">
+      <section className="section alt" id="highlights">
         <div className="section-head">
-          <h2>Studios, not mockups.</h2>
-          <span className="idx">04 — Work</span>
+          <h2>Signals that stick.</h2>
+          <span className="idx">04 — Highlights</span>
+        </div>
+        <div className="heat">
+          {site.highlights.map((item) => (
+            <article key={item.title}>
+              <small>HIGHLIGHT</small>
+              <h4>{item.title}</h4>
+              <p>{item.detail}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="section" id="work">
+        <div className="section-head">
+          <h2>Ten live studios.</h2>
+          <span className="idx">05 — Studios</span>
         </div>
         <div className="work-list">
           {site.works.map((work) => (
@@ -298,10 +317,38 @@ function HomePage() {
         </div>
       </section>
 
+      <section className="section alt" id="projects">
+        <div className="section-head">
+          <h2>Case studies.</h2>
+          <span className="idx">06 — Projects</span>
+        </div>
+        <div className="case-grid">
+          {site.caseStudies.map((item) => (
+            <article className="case-card" key={item.title}>
+              <small>
+                {item.period} · {item.role}
+              </small>
+              <h3>{item.title}</h3>
+              <p>{item.summary}</p>
+              <ul className="bullet-list">
+                {item.impact.map((line) => (
+                  <li key={line}>{line}</li>
+                ))}
+              </ul>
+              <div className="tags">
+                {item.stack.map((tag) => (
+                  <span key={tag}>{tag}</span>
+                ))}
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
       <section className="section" id="contact">
         <div className="section-head">
           <h2>Make the first move.</h2>
-          <span className="idx">05 — Contact</span>
+          <span className="idx">07 — Contact</span>
         </div>
         <div className="contact">
           <div>
@@ -309,8 +356,8 @@ function HomePage() {
               {site.availability}. Hyderabad, with remote-ready work.
             </p>
             <p className="contact-note">
-              LinkedIn is still being dressed. Until then, this site is the full brief — education,
-              studios, resume, and a direct line.
+              Portfolio, resume, and ten interactive studios live at niharprojects.com — ready for
+              internship conversations.
             </p>
           </div>
           <div>

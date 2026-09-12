@@ -19,6 +19,7 @@ export const site = {
   about: [
     'I treat numbers as a craft. Accounting taught me the discipline of a clean book. Statistics taught me how a dataset confesses. Code taught me how to turn both into something a person can actually use.',
     'I am a third-year B.Com (CBCS) student at the Indian Institute of Management and Commerce, Osmania University. My work sits between finance and technology: Power BI, Excel, SQL, Python, web systems, taxation, and double-entry thinking. I want roles where analysis is not a slide — it is a product.',
+    'On niharprojects.com I ship interactive finance labs — tax slabs, ledgers, ratios, cashflow, EMI, insurance illustrations, SQL thinking, and academic dashboards — so recruiters can click the skill, not just read it.',
   ],
   objective:
     'Seeking internships and entry-level roles in financial analysis, business intelligence, fintech, accounting operations, and digital product. I want to ship work that is precise, visual, and useful.',
@@ -90,8 +91,25 @@ export const site = {
     { sem: 4, code: '427', name: 'Income Tax', credits: 5, grade: 'A' },
   ],
   skills: {
-    data: ['Power BI', 'Microsoft Excel', 'SQL', 'RDBMS', 'Business Statistics'],
-    code: ['Python', 'C', 'C++', 'HTML / CSS / JS', 'Web Technologies'],
+    data: [
+      'Power BI',
+      'Microsoft Excel',
+      'SQL',
+      'RDBMS',
+      'Business Statistics',
+      'Data Visualization',
+      'Dashboard Design',
+    ],
+    code: [
+      'Python',
+      'C',
+      'C++',
+      'HTML / CSS / JavaScript',
+      'React',
+      'TypeScript',
+      'Web Technologies',
+      'Git / GitHub',
+    ],
     commerce: [
       'Financial Accounting',
       'Advanced Accounting',
@@ -99,6 +117,9 @@ export const site = {
       'Business Laws',
       'Insurance',
       'Business Organisation',
+      'Financial Ratios',
+      'CVP / Break-even',
+      'Cashflow Analysis',
     ],
     core: [
       'Data analysis',
@@ -107,6 +128,8 @@ export const site = {
       'Teamwork',
       'Fast learning',
       'Time discipline',
+      'Stakeholder communication',
+      'Attention to detail',
     ],
   },
   languages: [
@@ -117,8 +140,35 @@ export const site = {
   stats: [
     { label: 'College CGPA', value: '8.51' },
     { label: 'Peak SGPA', value: '9.04' },
-    { label: 'Intermediate', value: '88.4%' },
-    { label: 'SSC CGPA', value: '8.8' },
+    { label: 'Live studios', value: '10' },
+    { label: 'Credits earned', value: '100' },
+  ],
+  highlights: [
+    {
+      title: 'Peak SGPA 9.04',
+      detail: 'Semester 1 — strongest academic start in the B.Com (CBCS) run.',
+    },
+    {
+      title: 'Outstanding (O) grades',
+      detail: 'Fundamentals of IT, FIT Practical, and Principles of Insurance.',
+    },
+    {
+      title: 'A+ cluster',
+      detail:
+        'Business Statistics I & II, RDBMS, Financial Accounting I & II, Communication, Web Tech Practical, Leadership.',
+    },
+    {
+      title: 'Intermediate 88.4%',
+      detail: '884/1000 · A Grade — Economics, Accountancy, Political Science.',
+    },
+    {
+      title: 'SSC CGPA 8.8',
+      detail: 'Gowtham Model School, Hastinapuram · English medium.',
+    },
+    {
+      title: 'Portfolio product',
+      detail: 'Built and shipped niharprojects.com with 10 interactive finance / data studios.',
+    },
   ],
   works: [
     {
@@ -127,35 +177,236 @@ export const site = {
       title: 'Tax Atelier',
       eyebrow: 'Income Tax studio',
       summary:
-        'A cinematic slab engine for India’s new tax regime — income in, waterfall out. Built from the same discipline as my Income Tax paper.',
+        'Interactive new-regime slab engine — income in, waterfall out, with standard deduction and 87A logic.',
       stack: ['TypeScript', 'Taxation', 'UX'],
+      bullets: [
+        'Models new-regime slabs with ₹75,000 standard deduction',
+        'Shows slab-wise tax, cess, and effective rate',
+        'Educational 87A rebate handling for lower bands',
+      ],
     },
     {
       slug: 'ledger',
       roman: '02',
       title: 'Ledger Theatre',
       eyebrow: 'Double-entry lab',
-      summary:
-        'Journal a transaction and watch debit / credit T-accounts move. Accounting, performed.',
-      stack: ['Accounting', 'Animation', 'React'],
+      summary: 'Journal a transaction and watch debit / credit T-accounts update in real time.',
+      stack: ['Accounting', 'React', 'Education UX'],
+      bullets: [
+        'Posts journal entries with narration',
+        'Visual T-accounts for debit and credit sides',
+        'Reinforces Financial Accounting fundamentals',
+      ],
     },
     {
       slug: 'stats',
       roman: '03',
       title: 'Statforge',
       eyebrow: 'Business statistics',
-      summary:
-        'Paste a series. Get mean, median, variance, σ, CV, quartiles — the toolkit from Business Statistics I & II, live.',
-      stack: ['Statistics', 'Python-thinking', 'Viz'],
+      summary: 'Paste a series — mean, median, σ, CV, quartiles, and a live chart.',
+      stack: ['Statistics', 'Analytics', 'Viz'],
+      bullets: [
+        'Descriptive stats from Business Statistics I & II',
+        'Coefficient of variation and quartile toolkit',
+        'Instant bar visualization of the series',
+      ],
     },
     {
       slug: 'board',
       roman: '04',
       title: 'Insight Board',
       eyebrow: 'Academic command center',
+      summary: 'Power BI-style cockpit of the B.Com run — SGPA, grades, credits, honors.',
+      stack: ['Dashboard', 'Power BI logic', 'SQL thinking'],
+      bullets: [
+        'SGPA trajectory across four semesters',
+        'Grade heat map for every paper',
+        'KPI cards for CGPA, peak, honors, credits',
+      ],
+    },
+    {
+      slug: 'ratios',
+      roman: '05',
+      title: 'Ratio Radar',
+      eyebrow: 'Financial analysis',
+      summary: 'Liquidity, solvency, and profitability ratios from a mini balance sheet / P&L.',
+      stack: ['Accounting', 'Excel thinking', 'Finance'],
+      bullets: [
+        'Current, quick, debt-equity, ROA, net margin',
+        'Inputs mirror real statement line items',
+        'Instant interpretation-ready KPIs',
+      ],
+    },
+    {
+      slug: 'breakeven',
+      roman: '06',
+      title: 'Margin Map',
+      eyebrow: 'CVP / Break-even',
+      summary: 'Contribution, break-even units, and margin of safety for a product line.',
+      stack: ['Costing', 'Excel', 'Decision analysis'],
+      bullets: [
+        'Break-even units and rupee sales',
+        'Contribution margin and MOS %',
+        'What-if price / cost / volume thinking',
+      ],
+    },
+    {
+      slug: 'cashflow',
+      roman: '07',
+      title: 'Cashflow Compass',
+      eyebrow: 'Liquidity planner',
+      summary: 'Monthly inflow / outflow model with runway and surplus / deficit flags.',
+      stack: ['Excel logic', 'Planning', 'BI'],
+      bullets: [
+        'Operating cash in vs out',
+        'Net cash and runway estimate',
+        'Dashboard-style surplus / deficit signal',
+      ],
+    },
+    {
+      slug: 'emi',
+      roman: '08',
+      title: 'EMI Lab',
+      eyebrow: 'Loan amortization',
+      summary: 'EMI, total interest, and a year-one principal / interest split for any loan.',
+      stack: ['Python-thinking', 'Finance math', 'UX'],
+      bullets: [
+        'Reducing-balance EMI formula',
+        'Total interest and payable amount',
+        'Sample amortization peek for Year 1',
+      ],
+    },
+    {
+      slug: 'insurance',
+      roman: '09',
+      title: 'Premium Pulse',
+      eyebrow: 'Insurance illustration',
+      summary: 'Educational life / general premium sketch from cover, age, and term inputs.',
+      stack: ['Insurance', 'Product thinking', 'UI'],
+      bullets: [
+        'Inspired by Principles of Insurance papers',
+        'Cover × rate × age / term adjustments',
+        'Clear disclaimer: educational only',
+      ],
+    },
+    {
+      slug: 'sql',
+      roman: '10',
+      title: 'Query Forge',
+      eyebrow: 'SQL / RDBMS lab',
+      summary: 'Sample commerce schema + ready queries for sales, debtors, and stock.',
+      stack: ['SQL', 'RDBMS', 'Data literacy'],
+      bullets: [
+        'Mini schema: customers, invoices, products',
+        'SELECT / JOIN / GROUP BY patterns',
+        'Tied to RDBMS coursework (A+)',
+      ],
+    },
+  ],
+  caseStudies: [
+    {
+      title: 'niharprojects.com — Personal Brand Site',
+      role: 'Solo builder',
+      period: '2026',
       summary:
-        'A Power BI-style cockpit of my own B.Com run: SGPA trajectory, grade heat, credit load, and honors.',
-      stack: ['Power BI logic', 'SQL thinking', 'Dashboard'],
+        'Designed and shipped a cinematic personal site on React + TypeScript, hosted on GitHub Pages with custom domain, SSL, resume, and 10 live finance studios.',
+      impact: [
+        'Custom domain + HTTPS on GitHub Pages',
+        'SEO basics: sitemap, robots, Open Graph, schema.org Person',
+        'Mobile-responsive dark editorial UI',
+      ],
+      stack: ['React', 'TypeScript', 'Vite', 'GitHub Pages', 'DNS'],
+    },
+    {
+      title: 'Academic Performance Intelligence Dashboard',
+      role: 'Personal analytics project',
+      period: '2025 — 2026',
+      summary:
+        'Modeled four semesters of B.Com results as an analyst would — SGPA trends, grade distribution, credit load, and honor density.',
+      impact: [
+        'CGPA tracking at 8.51 with peak 9.04',
+        'Paper-level grade inventory (30 courses)',
+        'Storytelling for internship interviews',
+      ],
+      stack: ['Power BI concepts', 'Excel', 'Data storytelling'],
+    },
+    {
+      title: 'New Regime Tax Explainer Tool',
+      role: 'Course-to-product build',
+      period: '2026',
+      summary:
+        'Turned Income Tax (A grade) theory into an interactive slab calculator with cess and rebate logic for learning and demos.',
+      impact: [
+        'Translates syllabus into usable UX',
+        'Shows effective tax rate, not only absolute tax',
+        'Safe educational framing for non-filers',
+      ],
+      stack: ['Taxation', 'JavaScript', 'Product design'],
+    },
+    {
+      title: 'Double-Entry Learning Lab',
+      role: 'Accounting education tool',
+      period: '2025 — 2026',
+      summary:
+        'Interactive journal + T-account trainer built from Financial Accounting I & II (A+).',
+      impact: [
+        'Makes debit/credit visible',
+        'Supports practice narrations',
+        'Useful for peer tutoring / demos',
+      ],
+      stack: ['Accounting', 'React', 'Pedagogy'],
+    },
+    {
+      title: 'Business Statistics Workbench',
+      role: 'Analytics practice set',
+      period: '2025 — 2026',
+      summary:
+        'Live descriptive statistics engine for series analysis — aligned to Business Statistics I & II (A+).',
+      impact: [
+        'Mean, median, variance, σ, CV, quartiles',
+        'Instant visual feedback',
+        'Interview-ready stats fluency',
+      ],
+      stack: ['Statistics', 'Python thinking', 'Charts'],
+    },
+    {
+      title: 'Retail Ratio & Break-even Pack',
+      role: 'Finance analysis kit',
+      period: '2026',
+      summary:
+        'Ratio Radar + Margin Map for liquidity, solvency, profitability, and CVP decisions on a sample product line.',
+      impact: [
+        'Statement-to-ratio workflow',
+        'Break-even and margin of safety',
+        'Bridge from textbooks to decisions',
+      ],
+      stack: ['Financial analysis', 'Excel models', 'Costing'],
+    },
+    {
+      title: 'Cashflow & EMI Decision Duo',
+      role: 'Personal finance toolkit',
+      period: '2026',
+      summary:
+        'Cashflow Compass and EMI Lab for runway thinking and loan amortization — practical money math for students and small ops.',
+      impact: [
+        'Monthly surplus / deficit clarity',
+        'EMI + total interest transparency',
+        'Amortization intuition without spreadsheet fear',
+      ],
+      stack: ['Excel logic', 'Finance math', 'UX'],
+    },
+    {
+      title: 'Insurance Premium Sketch + SQL Commerce Lab',
+      role: 'Domain + data projects',
+      period: '2026',
+      summary:
+        'Premium Pulse (insurance illustration) and Query Forge (RDBMS sample queries) connecting insurance papers and database coursework to product demos.',
+      impact: [
+        'Shows domain + data range in one portfolio',
+        'SQL patterns: join, filter, aggregate',
+        'Insurance concepts made interactive',
+      ],
+      stack: ['SQL', 'Insurance', 'RDBMS'],
     },
   ],
 } as const

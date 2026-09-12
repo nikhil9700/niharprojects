@@ -358,11 +358,233 @@ export function BoardStudio() {
   )
 }
 
+export function RatioStudio() {
+  const [ca, setCa] = useState(450000)
+  const [cl, setCl] = useState(180000)
+  const [inventory, setInventory] = useState(90000)
+  const [debt, setDebt] = useState(220000)
+  const [equity, setEquity] = useState(500000)
+  const [sales, setSales] = useState(1200000)
+  const [netProfit, setNetProfit] = useState(96000)
+  const [assets, setAssets] = useState(820000)
+  const current = cl ? ca / cl : 0
+  const quick = cl ? (ca - inventory) / cl : 0
+  const de = equity ? debt / equity : 0
+  const npm = sales ? (netProfit / sales) * 100 : 0
+  const roa = assets ? (netProfit / assets) * 100 : 0
+  return (
+    <div className="panel">
+      <div className="lab-grid">
+        <div className="field"><label>Current assets</label><input type="number" value={ca} onChange={(e) => setCa(Number(e.target.value) || 0)} /></div>
+        <div className="field"><label>Current liabilities</label><input type="number" value={cl} onChange={(e) => setCl(Number(e.target.value) || 0)} /></div>
+        <div className="field"><label>Inventory</label><input type="number" value={inventory} onChange={(e) => setInventory(Number(e.target.value) || 0)} /></div>
+        <div className="field"><label>Debt</label><input type="number" value={debt} onChange={(e) => setDebt(Number(e.target.value) || 0)} /></div>
+        <div className="field"><label>Equity</label><input type="number" value={equity} onChange={(e) => setEquity(Number(e.target.value) || 0)} /></div>
+        <div className="field"><label>Sales</label><input type="number" value={sales} onChange={(e) => setSales(Number(e.target.value) || 0)} /></div>
+        <div className="field"><label>Net profit</label><input type="number" value={netProfit} onChange={(e) => setNetProfit(Number(e.target.value) || 0)} /></div>
+        <div className="field"><label>Total assets</label><input type="number" value={assets} onChange={(e) => setAssets(Number(e.target.value) || 0)} /></div>
+      </div>
+      <div className="kpi-grid">
+        <div className="kpi"><b>{current.toFixed(2)}</b><span>Current ratio</span></div>
+        <div className="kpi"><b>{quick.toFixed(2)}</b><span>Quick ratio</span></div>
+        <div className="kpi"><b>{de.toFixed(2)}</b><span>Debt / Equity</span></div>
+        <div className="kpi"><b>{npm.toFixed(1)}%</b><span>Net margin</span></div>
+      </div>
+      <div className="kpi-grid">
+        <div className="kpi"><b>{roa.toFixed(1)}%</b><span>ROA</span></div>
+        <div className="kpi"><b>{formatINR(ca - cl)}</b><span>Working capital</span></div>
+        <div className="kpi"><b>{formatINR(netProfit)}</b><span>Bottom line</span></div>
+        <div className="kpi"><b>{formatINR(sales)}</b><span>Top line</span></div>
+      </div>
+    </div>
+  )
+}
+
+export function BreakevenStudio() {
+  const [price, setPrice] = useState(499)
+  const [variable, setVariable] = useState(280)
+  const [fixed, setFixed] = useState(180000)
+  const [units, setUnits] = useState(900)
+  const contrib = price - variable
+  const beUnits = contrib > 0 ? fixed / contrib : 0
+  const beSales = beUnits * price
+  const profit = units * contrib - fixed
+  const mos = beSales ? ((units * price - beSales) / (units * price)) * 100 : 0
+  return (
+    <div className="panel">
+      <div className="lab-grid">
+        <div className="field"><label>Selling price / unit</label><input type="number" value={price} onChange={(e) => setPrice(Number(e.target.value) || 0)} /></div>
+        <div className="field"><label>Variable cost / unit</label><input type="number" value={variable} onChange={(e) => setVariable(Number(e.target.value) || 0)} /></div>
+        <div className="field"><label>Fixed costs</label><input type="number" value={fixed} onChange={(e) => setFixed(Number(e.target.value) || 0)} /></div>
+        <div className="field"><label>Expected units</label><input type="number" value={units} onChange={(e) => setUnits(Number(e.target.value) || 0)} /></div>
+      </div>
+      <div className="kpi-grid">
+        <div className="kpi"><b>{formatINR(contrib)}</b><span>Contribution / unit</span></div>
+        <div className="kpi"><b>{Math.ceil(beUnits)}</b><span>Break-even units</span></div>
+        <div className="kpi"><b>{formatINR(beSales)}</b><span>Break-even sales</span></div>
+        <div className="kpi"><b>{mos.toFixed(1)}%</b><span>Margin of safety</span></div>
+      </div>
+      <div className="kpi-grid">
+        <div className="kpi"><b>{formatINR(profit)}</b><span>Expected profit</span></div>
+        <div className="kpi"><b>{price ? ((contrib / price) * 100).toFixed(1) : 0}%</b><span>CM ratio</span></div>
+        <div className="kpi"><b>{formatINR(units * price)}</b><span>Revenue</span></div>
+        <div className="kpi"><b>{formatINR(units * variable + fixed)}</b><span>Total cost</span></div>
+      </div>
+    </div>
+  )
+}
+
+export function CashflowStudio() {
+  const [inflow, setInflow] = useState(85000)
+  const [outflow, setOutflow] = useState(62000)
+  const [cash, setCash] = useState(140000)
+  const net = inflow - outflow
+  const runway = outflow > 0 && net < 0 ? cash / Math.abs(net) : net >= 0 ? 99 : 0
+  return (
+    <div className="panel">
+      <div className="lab-grid">
+        <div className="field"><label>Monthly inflow</label><input type="number" value={inflow} onChange={(e) => setInflow(Number(e.target.value) || 0)} /></div>
+        <div className="field"><label>Monthly outflow</label><input type="number" value={outflow} onChange={(e) => setOutflow(Number(e.target.value) || 0)} /></div>
+        <div className="field"><label>Opening cash</label><input type="number" value={cash} onChange={(e) => setCash(Number(e.target.value) || 0)} /></div>
+      </div>
+      <div className="kpi-grid">
+        <div className="kpi"><b>{formatINR(net)}</b><span>Net cash / month</span></div>
+        <div className="kpi"><b>{formatINR(cash + net)}</b><span>Closing cash</span></div>
+        <div className="kpi"><b>{net >= 0 ? 'Surplus' : 'Deficit'}</b><span>Signal</span></div>
+        <div className="kpi"><b>{runway >= 99 ? 'Healthy' : runway.toFixed(1) + ' mo'}</b><span>Runway</span></div>
+      </div>
+      <svg viewBox="0 0 400 120" style={{ width: '100%', marginTop: 18 }}>
+        <rect x="40" y={110 - (inflow / Math.max(inflow, outflow, 1)) * 90} width="60" height={(inflow / Math.max(inflow, outflow, 1)) * 90} fill="#d4b483" />
+        <rect x="140" y={110 - (outflow / Math.max(inflow, outflow, 1)) * 90} width="60" height={(outflow / Math.max(inflow, outflow, 1)) * 90} fill="#d98462" />
+        <text x="70" y="118" textAnchor="middle" fill="#8f877b" fontSize="11">In</text>
+        <text x="170" y="118" textAnchor="middle" fill="#8f877b" fontSize="11">Out</text>
+      </svg>
+    </div>
+  )
+}
+
+export function EmiStudio() {
+  const [principal, setPrincipal] = useState(500000)
+  const [rate, setRate] = useState(10.5)
+  const [years, setYears] = useState(5)
+  const n = years * 12
+  const r = rate / 12 / 100
+  const emi = r ? (principal * r * (1 + r) ** n) / ((1 + r) ** n - 1) : principal / n
+  const total = emi * n
+  const interest = total - principal
+  const firstInterest = principal * r
+  const firstPrincipal = emi - firstInterest
+  return (
+    <div className="panel">
+      <div className="lab-grid">
+        <div className="field"><label>Loan amount</label><input type="number" value={principal} onChange={(e) => setPrincipal(Number(e.target.value) || 0)} /></div>
+        <div className="field"><label>Annual rate %</label><input type="number" step="0.1" value={rate} onChange={(e) => setRate(Number(e.target.value) || 0)} /></div>
+        <div className="field"><label>Tenure (years)</label><input type="number" value={years} onChange={(e) => setYears(Number(e.target.value) || 0)} /></div>
+      </div>
+      <div className="kpi-grid">
+        <div className="kpi"><b>{formatINR(emi)}</b><span>EMI</span></div>
+        <div className="kpi"><b>{formatINR(interest)}</b><span>Total interest</span></div>
+        <div className="kpi"><b>{formatINR(total)}</b><span>Total payable</span></div>
+        <div className="kpi"><b>{n}</b><span>Installments</span></div>
+      </div>
+      <p className="books" style={{ marginTop: 18 }}>
+        Month 1 split ≈ Principal {formatINR(firstPrincipal)} · Interest {formatINR(firstInterest)}
+      </p>
+    </div>
+  )
+}
+
+export function InsuranceStudio() {
+  const [cover, setCover] = useState(2500000)
+  const [age, setAge] = useState(22)
+  const [term, setTerm] = useState(20)
+  const [type, setType] = useState<'life' | 'general'>('life')
+  const base = type === 'life' ? 0.00035 : 0.0011
+  const ageFactor = 1 + Math.max(0, age - 25) * 0.018
+  const termFactor = type === 'life' ? 1 + (term - 10) * 0.012 : 1
+  const annual = cover * base * ageFactor * termFactor
+  return (
+    <div className="panel">
+      <div className="lab-grid">
+        <div className="field">
+          <label>Type</label>
+          <select value={type} onChange={(e) => setType(e.target.value as 'life' | 'general')}>
+            <option value="life">Life (term sketch)</option>
+            <option value="general">General (asset sketch)</option>
+          </select>
+        </div>
+        <div className="field"><label>Sum assured / cover</label><input type="number" value={cover} onChange={(e) => setCover(Number(e.target.value) || 0)} /></div>
+        <div className="field"><label>Age</label><input type="number" value={age} onChange={(e) => setAge(Number(e.target.value) || 0)} /></div>
+        <div className="field"><label>Term (years)</label><input type="number" value={term} onChange={(e) => setTerm(Number(e.target.value) || 0)} /></div>
+      </div>
+      <div className="kpi-grid">
+        <div className="kpi"><b>{formatINR(annual)}</b><span>Est. annual premium</span></div>
+        <div className="kpi"><b>{formatINR(annual / 12)}</b><span>Est. monthly</span></div>
+        <div className="kpi"><b>{formatINR(cover)}</b><span>Cover</span></div>
+        <div className="kpi"><b>{((annual / cover) * 1000).toFixed(2)}</b><span>₹ / ₹1000 cover</span></div>
+      </div>
+      <p className="disclaimer">Educational illustration only — not a quote from any insurer.</p>
+    </div>
+  )
+}
+
+export function SqlStudio() {
+  const snippets = [
+    {
+      title: 'Top customers by sales',
+      sql: `SELECT c.name, SUM(i.amount) AS sales
+FROM customers c
+JOIN invoices i ON i.customer_id = c.id
+GROUP BY c.name
+ORDER BY sales DESC
+LIMIT 5;`,
+    },
+    {
+      title: 'Overdue debtors',
+      sql: `SELECT name, due_date, amount
+FROM invoices
+WHERE status = 'open' AND due_date < CURRENT_DATE
+ORDER BY due_date;`,
+    },
+    {
+      title: 'Low stock products',
+      sql: `SELECT sku, name, qty_on_hand
+FROM products
+WHERE qty_on_hand < reorder_level
+ORDER BY qty_on_hand;`,
+    },
+  ]
+  const [active, setActive] = useState(0)
+  return (
+    <div className="panel">
+      <div className="chips" style={{ marginBottom: 16 }}>
+        {snippets.map((item, i) => (
+          <button key={item.title} type="button" className="chip" onClick={() => setActive(i)} style={{ cursor: 'pointer', background: i === active ? 'var(--gold-dim)' : undefined }}>
+            {item.title}
+          </button>
+        ))}
+      </div>
+      <pre className="books sql-block">{snippets[active].sql}</pre>
+      <div className="heat" style={{ marginTop: 18 }}>
+        <article><small>SCHEMA</small><h4>customers</h4><p>id, name, city, segment</p></article>
+        <article><small>SCHEMA</small><h4>invoices</h4><p>id, customer_id, amount, due_date, status</p></article>
+        <article><small>SCHEMA</small><h4>products</h4><p>sku, name, qty_on_hand, reorder_level</p></article>
+      </div>
+    </div>
+  )
+}
+
 const studios = {
   tax: { title: 'Tax Atelier', el: <TaxStudio /> },
   ledger: { title: 'Ledger Theatre', el: <LedgerStudio /> },
   stats: { title: 'Statforge', el: <StatsStudio /> },
   board: { title: 'Insight Board', el: <BoardStudio /> },
+  ratios: { title: 'Ratio Radar', el: <RatioStudio /> },
+  breakeven: { title: 'Margin Map', el: <BreakevenStudio /> },
+  cashflow: { title: 'Cashflow Compass', el: <CashflowStudio /> },
+  emi: { title: 'EMI Lab', el: <EmiStudio /> },
+  insurance: { title: 'Premium Pulse', el: <InsuranceStudio /> },
+  sql: { title: 'Query Forge', el: <SqlStudio /> },
 }
 
 export function WorkPage() {
@@ -386,6 +608,11 @@ export function WorkPage() {
           <p className="kicker">{work.eyebrow}</p>
           <h1>{work.title}</h1>
           <p className="lede">{work.summary}</p>
+          <ul className="bullet-list">
+            {work.bullets.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
         </div>
         <Link className="btn ghost" to="/#work">
           Close studio

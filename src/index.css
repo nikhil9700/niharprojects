@@ -478,6 +478,47 @@ input[type="range"] {
 .t-cols div:first-child { border-right: 1px solid var(--line); }
 .books { font-family: var(--mono); font-size: .85rem; line-height: 1.8; color: var(--paper-2); }
 .disclaimer { margin-top: 18px; color: var(--mute); font-size: .82rem; }
+.lab-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+.bullet-list {
+  margin: 16px 0 0;
+  padding-left: 18px;
+  color: var(--paper-2);
+  line-height: 1.7;
+}
+.case-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+.case-card {
+  border: 1px solid var(--line);
+  padding: 22px;
+  background: rgba(255,255,255,.02);
+}
+.case-card small {
+  color: var(--gold);
+  font-family: var(--mono);
+  font-size: .68rem;
+  letter-spacing: .14em;
+}
+.case-card h3 {
+  font-family: var(--serif);
+  font-size: 1.55rem;
+  font-weight: 500;
+  margin: 10px 0 12px;
+}
+.case-card p { color: var(--mute); line-height: 1.65; }
+.sql-block {
+  background: var(--ink);
+  border: 1px solid var(--line);
+  padding: 16px;
+  overflow-x: auto;
+  white-space: pre-wrap;
+}
 
 .resume-page {
   background: #efe6d6;
@@ -527,7 +568,7 @@ input[type="range"] {
     padding: 18px;
     gap: 14px;
   }
-  .hero, .about-grid, .contact, .skill-grid, .work-row, .edu-card, .stats, .kpi-grid, .t-accounts {
+  .hero, .about-grid, .contact, .skill-grid, .work-row, .edu-card, .stats, .kpi-grid, .t-accounts, .lab-grid, .case-grid {
     grid-template-columns: 1fr;
   }
   .hero { min-height: auto; }

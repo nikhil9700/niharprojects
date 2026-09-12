@@ -38,6 +38,26 @@ export function ResumePage() {
         <p>
           {site.semesters.map((row) => `Semester ${row.sem}: SGPA ${row.sgpa.toFixed(2)}`).join(' · ')}
         </p>
+        <h2>Projects</h2>
+        {site.caseStudies.map((item) => (
+          <p key={item.title}>
+            <strong>{item.title}</strong> — {item.period}
+            <br />
+            {item.summary}
+            <br />
+            {item.impact.map((line) => `• ${line}`).join(' ')}
+            <br />
+            Stack: {item.stack.join(', ')}
+          </p>
+        ))}
+        <h2>Interactive portfolio studios</h2>
+        <ul>
+          {site.works.map((work) => (
+            <li key={work.slug}>
+              <strong>{work.title}</strong> — {work.summary}
+            </li>
+          ))}
+        </ul>
         <h2>Technical skills</h2>
         <p>
           <strong>Data:</strong> {site.skills.data.join(', ')}
@@ -54,10 +74,11 @@ export function ResumePage() {
         </ul>
         <h2>Academic highlights</h2>
         <ul>
-          <li>Peak SGPA 9.04 in Semester 1; running CGPA 8.51 after four semesters.</li>
-          <li>Outstanding (O) in Fundamentals of IT and Principles of Insurance.</li>
-          <li>A+ in Business Statistics, RDBMS, Financial Accounting, Communication, and Web Technologies practical.</li>
-          <li>Intermediate 884/1000 (A Grade) · SSC CGPA 8.8.</li>
+          {site.highlights.map((item) => (
+            <li key={item.title}>
+              <strong>{item.title}:</strong> {item.detail}
+            </li>
+          ))}
         </ul>
         <h2>Languages</h2>
         <p>{site.languages.map((item) => `${item.name} (${item.level})`).join(' · ')}</p>
