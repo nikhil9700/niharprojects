@@ -351,7 +351,7 @@ function HomePage() {
           <span className="idx">07 — Contact</span>
         </div>
         <div className="contact">
-          <div>
+          <div className="contact-intro">
             <p className="lede" style={{ marginTop: 0 }}>
               {site.availability}. Hyderabad, with remote-ready work.
             </p>
@@ -359,22 +359,39 @@ function HomePage() {
               Portfolio, resume, and ten interactive studios live at niharprojects.com — ready for
               internship conversations.
             </p>
+            <div className="contact-actions">
+              <a className="btn" href={`mailto:${site.email}`}>
+                Email Nihar
+              </a>
+              <a className="btn ghost" href={site.whatsapp} target="_blank" rel="noreferrer">
+                WhatsApp
+              </a>
+            </div>
           </div>
-          <div>
-            <a className="big" href={`mailto:${site.email}`}>
-              {site.email}
+          <div className="contact-list">
+            <a className="contact-row" href={`mailto:${site.email}`}>
+              <span className="contact-label">Email</span>
+              <span className="contact-value">{site.email}</span>
             </a>
-            <a className="big" href={site.phoneHref}>
-              {site.phone}
+            <a className="contact-row" href={site.phoneHref}>
+              <span className="contact-label">Phone</span>
+              <span className="contact-value">{site.phone}</span>
             </a>
-            <a className="big" href={site.whatsapp} target="_blank" rel="noreferrer">
-              WhatsApp
+            <a className="contact-row" href={site.whatsapp} target="_blank" rel="noreferrer">
+              <span className="contact-label">WhatsApp</span>
+              <span className="contact-value">Chat now</span>
             </a>
-            <a className="big" href={site.linkedin} target="_blank" rel="noreferrer">
-              LinkedIn
+            <a className="contact-row" href={site.linkedin} target="_blank" rel="noreferrer">
+              <span className="contact-label">LinkedIn</span>
+              <span className="contact-value">Thakur Nihar Singh</span>
             </a>
-            <a className="big" href={site.github} target="_blank" rel="noreferrer">
-              GitHub
+            <a className="contact-row" href={site.github} target="_blank" rel="noreferrer">
+              <span className="contact-label">GitHub</span>
+              <span className="contact-value">niharprojects</span>
+            </a>
+            <a className="contact-row" href={site.domain} target="_blank" rel="noreferrer">
+              <span className="contact-label">Website</span>
+              <span className="contact-value">niharprojects.com</span>
             </a>
           </div>
         </div>
