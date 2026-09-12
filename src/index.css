@@ -113,11 +113,12 @@ body::before {
 .menu-btn {
   display: none;
   background: none;
-  border: 0;
+  border: 1px solid var(--gold);
   color: var(--paper);
   letter-spacing: .2em;
   text-transform: uppercase;
   font-size: .7rem;
+  padding: 8px 12px;
 }
 
 .hero {
@@ -155,6 +156,7 @@ body::before {
   color: var(--paper-2);
   font-size: 1.08rem;
   line-height: 1.7;
+  overflow-wrap: break-word;
 }
 .hero-actions { display: flex; gap: 14px; margin-top: 36px; flex-wrap: wrap; }
 .btn {
@@ -423,8 +425,14 @@ body::before {
 .studio-top {
   display: flex;
   justify-content: space-between;
+  align-items: flex-start;
   gap: 24px;
   margin-bottom: 36px;
+}
+.studio-top .btn { flex: 0 0 auto; }
+input[type="range"] {
+  accent-color: var(--gold);
+  width: 100%;
 }
 .studio h1 {
   font-family: var(--serif);
@@ -475,7 +483,7 @@ body::before {
   background: #efe6d6;
   color: #1a1714;
   min-height: 100svh;
-  padding: 48px 16px 80px;
+  padding: 110px 16px 80px;
 }
 .resume-sheet {
   max-width: 860px;

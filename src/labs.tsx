@@ -42,7 +42,8 @@ function computeNewRegime(gross: number) {
     lower = slab.upTo
     if (remaining <= 0) break
   }
-  if (gross <= 1275000) tax = 0
+  const rebateApplied = gross <= 1275000
+  if (rebateApplied) tax = 0
   const cess = tax * 0.04
   const total = tax + cess
   return {
@@ -51,8 +52,9 @@ function computeNewRegime(gross: number) {
     tax,
     cess,
     total,
+    rebateApplied,
     effective: gross ? (total / gross) * 100 : 0,
-    breakdown,
+    breakdown: rebateApplied ? [] : breakdown,
   }
 }
 
@@ -111,8 +113,12 @@ export function TaxStudio() {
       <div className="heat" style={{ marginTop: 20 }}>
         {result.breakdown.length === 0 ? (
           <article>
-            <h4>Zero tax</h4>
-            <p>Rebate under 87A applied for this income band.</p>
+            <h4>Zero tax payable</h4>
+            <p>
+              {result.rebateApplied
+                ? 'Section 87A rebate clears this band after the standard deduction.'
+                : 'No tax in this slab.'}
+            </p>
           </article>
         ) : (
           result.breakdown.map((row) => (
