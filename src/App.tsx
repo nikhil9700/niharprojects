@@ -55,7 +55,7 @@ function Nav() {
           Academics
         </a>
         <a href="/#work" onClick={() => setOpen(false)}>
-          Studios
+          Projects
         </a>
         <a href="/#projects" onClick={() => setOpen(false)}>
           Projects
@@ -119,12 +119,12 @@ function HomePage() {
   const ticker = useMemo(
     () =>
       [
-        ...site.skills.data,
-        ...site.skills.code,
-        ...site.skills.commerce,
-        ...site.skills.data,
-        ...site.skills.code,
-        ...site.skills.commerce,
+        ...site.skills.coreTools,
+        ...site.skills.excel,
+        ...site.skills.sql,
+        ...site.skills.powerbi,
+        ...site.skills.python,
+        ...site.skills.coreTools,
       ].join('  ·  '),
     [],
   )
@@ -142,7 +142,7 @@ function HomePage() {
           <p className="lede">{site.tagline}</p>
           <div className="hero-actions">
             <a className="btn" href="#work">
-              Enter the studios
+              View projects
             </a>
             <a className="btn ghost" href={`mailto:${site.email}`}>
               Email Nihar
@@ -235,38 +235,45 @@ function HomePage() {
 
       <section className="section" id="skills">
         <div className="section-head">
-          <h2>Tools I actually use.</h2>
+          <h2>Four tools. Deep practice.</h2>
           <span className="idx">03 — Skills</span>
+        </div>
+        <div className="chips" style={{ marginBottom: 28 }}>
+          {site.skills.coreTools.map((tool) => (
+            <span className="chip" key={tool}>
+              {tool}
+            </span>
+          ))}
         </div>
         <div className="skill-grid">
           <div className="skill-col">
-            <h3>Data</h3>
+            <h3>Excel</h3>
             <ul>
-              {site.skills.data.map((item) => (
+              {site.skills.excel.map((item) => (
                 <li key={item}>{item}</li>
               ))}
             </ul>
           </div>
           <div className="skill-col">
-            <h3>Code</h3>
+            <h3>SQL</h3>
             <ul>
-              {site.skills.code.map((item) => (
+              {site.skills.sql.map((item) => (
                 <li key={item}>{item}</li>
               ))}
             </ul>
           </div>
           <div className="skill-col">
-            <h3>Commerce</h3>
+            <h3>Power BI</h3>
             <ul>
-              {site.skills.commerce.map((item) => (
+              {site.skills.powerbi.map((item) => (
                 <li key={item}>{item}</li>
               ))}
             </ul>
           </div>
           <div className="skill-col">
-            <h3>Core</h3>
+            <h3>Python</h3>
             <ul>
-              {site.skills.core.map((item) => (
+              {site.skills.python.map((item) => (
                 <li key={item}>{item}</li>
               ))}
             </ul>
@@ -292,8 +299,8 @@ function HomePage() {
 
       <section className="section" id="work">
         <div className="section-head">
-          <h2>Ten live studios.</h2>
-          <span className="idx">05 — Studios</span>
+          <h2>Six projects. Easy to hard.</h2>
+          <span className="idx">05 — Projects</span>
         </div>
         <div className="work-list">
           {site.works.map((work) => (
@@ -319,8 +326,8 @@ function HomePage() {
 
       <section className="section alt" id="projects">
         <div className="section-head">
-          <h2>Case studies.</h2>
-          <span className="idx">06 — Projects</span>
+          <h2>Case write-ups.</h2>
+          <span className="idx">06 — Details</span>
         </div>
         <div className="case-grid">
           {site.caseStudies.map((item) => (
@@ -356,8 +363,7 @@ function HomePage() {
               {site.availability}. Hyderabad, with remote-ready work.
             </p>
             <p className="contact-note">
-              Portfolio, resume, and ten interactive studios live at niharprojects.com — ready for
-              internship conversations.
+              Six live projects in Power BI, Excel, SQL, and Python — plus resume — at niharprojects.com.
             </p>
             <div className="contact-actions">
               <a className="btn" href={`mailto:${site.email}`}>

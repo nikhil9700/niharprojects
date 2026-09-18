@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { cgpa, gradeTone, site } from './data'
+import { site } from './data'
 
 function formatINR(n: number) {
   return new Intl.NumberFormat('en-IN', {
@@ -10,525 +10,254 @@ function formatINR(n: number) {
   }).format(Math.max(0, Math.round(n)))
 }
 
-function computeNewRegime(gross: number) {
-  const standardDeduction = 75000
-  const taxable = Math.max(0, gross - standardDeduction)
-  const slabs = [
-    { upTo: 400000, rate: 0 },
-    { upTo: 800000, rate: 0.05 },
-    { upTo: 1200000, rate: 0.1 },
-    { upTo: 1600000, rate: 0.15 },
-    { upTo: 2000000, rate: 0.2 },
-    { upTo: 2400000, rate: 0.25 },
-    { upTo: Infinity, rate: 0.3 },
-  ]
-  const breakdown: { label: string; tax: number; rate: number }[] = []
-  let remaining = taxable
-  let lower = 0
-  let tax = 0
-  for (const slab of slabs) {
-    const width = slab.upTo - lower
-    const chunk = Math.min(remaining, width)
-    const slice = chunk * slab.rate
-    if (chunk > 0 && slab.rate > 0) {
-      breakdown.push({
-        label: `${formatINR(lower + 1)} – ${slab.upTo === Infinity ? '∞' : formatINR(slab.upTo)}`,
-        tax: slice,
-        rate: slab.rate * 100,
-      })
-    }
-    tax += slice
-    remaining -= chunk
-    lower = slab.upTo
-    if (remaining <= 0) break
-  }
-  const rebateApplied = gross <= 1275000
-  if (rebateApplied) tax = 0
-  const cess = tax * 0.04
-  const total = tax + cess
-  return {
-    standardDeduction,
-    taxable,
-    tax,
-    cess,
-    total,
-    rebateApplied,
-    effective: gross ? (total / gross) * 100 : 0,
-    breakdown: rebateApplied ? [] : breakdown,
-  }
+function mean(nums: number[]) {
+  return nums.reduce((a, b) => a + b, 0) / nums.length
 }
 
-function mean(n: number[]) {
-  return n.reduce((a, b) => a + b, 0) / n.length
-}
-function median(n: number[]) {
-  const s = [...n].sort((a, b) => a - b)
-  const m = Math.floor(s.length / 2)
-  return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2
-}
-function variance(n: number[]) {
-  const m = mean(n)
-  return mean(n.map((x) => (x - m) ** 2))
-}
+/** EASY — Excel Sheet Lab */
+export function ExcelSheetStudio() {
+  const [rows, setRows] = useState([
+    { name: 'Notebooks', qty: 40, price: 120 },
+    { name: 'Pens', qty: 100, price: 15 },
+    { name: 'Bags', qty: 12, price: 850 },
+    { name: 'Bottles', qty: 25, price: 199 },
+  ])
+  const withCalc = rows.map((r) => ({
+    ...r,
+    amount: r.qty * r.price,
+    status: r.qty * r.price >= 5000 ? 'High' : 'Normal',
+  }))
+  const total = withCalc.reduce((s, r) => s + r.amount, 0)
+  const avg = withCalc.length ? total / withCalc.length : 0
+  const max = Math.max(...withCalc.map((r) => r.amount), 1)
 
-export function TaxStudio() {
-  const [income, setIncome] = useState(900000)
-  const result = computeNewRegime(income)
+  const update = (i: number, key: 'name' | 'qty' | 'price', value: string) => {
+    setRows((prev) =>
+      prev.map((row, idx) =>
+        idx === i
+          ? {
+              ...row,
+              [key]: key === 'name' ? value : Number(value) || 0,
+            }
+          : row,
+      ),
+    )
+  }
+
   return (
     <div className="panel">
-      <div className="field">
-        <label>Annual income (₹)</label>
-        <input
-          type="range"
-          min={300000}
-          max={4000000}
-          step={10000}
-          value={income}
-          onChange={(e) => setIncome(Number(e.target.value))}
-        />
-        <input
-          type="number"
-          value={income}
-          onChange={(e) => setIncome(Number(e.target.value) || 0)}
-        />
-      </div>
-      <div className="kpi-grid">
-        <div className="kpi">
-          <b>{formatINR(result.taxable)}</b>
-          <span>Taxable</span>
-        </div>
-        <div className="kpi">
-          <b>{formatINR(result.tax)}</b>
-          <span>Income tax</span>
-        </div>
-        <div className="kpi">
-          <b>{formatINR(result.cess)}</b>
-          <span>Cess 4%</span>
-        </div>
-        <div className="kpi">
-          <b>{result.effective.toFixed(2)}%</b>
-          <span>Effective rate</span>
-        </div>
-      </div>
-      <div className="heat" style={{ marginTop: 20 }}>
-        {result.breakdown.length === 0 ? (
-          <article>
-            <h4>Zero tax payable</h4>
-            <p>
-              {result.rebateApplied
-                ? 'Section 87A rebate clears this band after the standard deduction.'
-                : 'No tax in this slab.'}
-            </p>
-          </article>
-        ) : (
-          result.breakdown.map((row) => (
-            <article key={row.label}>
-              <small>{row.rate}% slab</small>
-              <h4>{row.label}</h4>
-              <span className="grade">{formatINR(row.tax)}</span>
-            </article>
-          ))
-        )}
-      </div>
-      <p className="disclaimer">
-        Educational model of the new regime with ₹75,000 standard deduction and a simplified
-        87A rebate. Not a tax filing. Confirm slabs with a CA before using real money.
+      <p className="disclaimer" style={{ marginTop: 0 }}>
+        Excel idea: Amount = Qty × Price · Total = SUM · Average = AVERAGE · Status = IF(Amount≥5000,"High","Normal")
       </p>
-    </div>
-  )
-}
-
-export function LedgerStudio() {
-  const [desc, setDesc] = useState('Received cash from debtor')
-  const [debit, setDebit] = useState('Cash A/c')
-  const [credit, setCredit] = useState('Sundry Debtors A/c')
-  const [amount, setAmount] = useState(25000)
-  const [posted, setPosted] = useState(true)
-  return (
-    <div className="panel">
-      <div className="field">
-        <label>Narration</label>
-        <input value={desc} onChange={(e) => setDesc(e.target.value)} />
-      </div>
-      <div className="field">
-        <label>Debit account</label>
-        <input value={debit} onChange={(e) => setDebit(e.target.value)} />
-      </div>
-      <div className="field">
-        <label>Credit account</label>
-        <input value={credit} onChange={(e) => setCredit(e.target.value)} />
-      </div>
-      <div className="field">
-        <label>Amount (₹)</label>
-        <input
-          type="number"
-          value={amount}
-          onChange={(e) => setAmount(Number(e.target.value) || 0)}
-        />
-      </div>
-      <button className="btn" type="button" onClick={() => setPosted(true)}>
-        Post entry
-      </button>
-      {posted && (
-        <>
-          <p className="books" style={{ marginTop: 22 }}>
-            {debit} .......... Dr {formatINR(amount)}
-            <br />
-            &nbsp;&nbsp;&nbsp;&nbsp;To {credit} .......... {formatINR(amount)}
-            <br />
-            ({desc})
-          </p>
-          <div className="t-accounts">
-            <div className="t-box">
-              <h4>{debit}</h4>
-              <div className="t-cols">
-                <div>
-                  Dr
-                  <br />
-                  {formatINR(amount)}
-                </div>
-                <div>Cr</div>
-              </div>
-            </div>
-            <div className="t-box">
-              <h4>{credit}</h4>
-              <div className="t-cols">
-                <div>Dr</div>
-                <div>
-                  Cr
-                  <br />
-                  {formatINR(amount)}
-                </div>
-              </div>
-            </div>
+      <div className="sheet-table">
+        <div className="sheet-head">
+          <span>Item</span>
+          <span>Qty</span>
+          <span>Price</span>
+          <span>Amount</span>
+          <span>IF Status</span>
+        </div>
+        {withCalc.map((row, i) => (
+          <div className="sheet-row" key={i}>
+            <input value={row.name} onChange={(e) => update(i, 'name', e.target.value)} />
+            <input type="number" value={row.qty} onChange={(e) => update(i, 'qty', e.target.value)} />
+            <input type="number" value={row.price} onChange={(e) => update(i, 'price', e.target.value)} />
+            <strong>{formatINR(row.amount)}</strong>
+            <span className={`grade ${row.status === 'High' ? 'gold' : 'mute'}`}>{row.status}</span>
           </div>
-        </>
-      )}
-    </div>
-  )
-}
-
-export function StatsStudio() {
-  const [raw, setRaw] = useState('88, 91, 76, 95, 84, 90, 79, 86, 92, 81')
-  const nums = useMemo(
-    () =>
-      raw
-        .split(/[,\s]+/)
-        .map((n) => Number(n))
-        .filter((n) => Number.isFinite(n)),
-    [raw],
-  )
-  const ready = nums.length > 1
-  const sd = ready ? Math.sqrt(variance(nums)) : 0
-  const m = ready ? mean(nums) : 0
-  const sorted = [...nums].sort((a, b) => a - b)
-  const q = (p: number) => {
-    if (!ready) return 0
-    const i = (sorted.length - 1) * p
-    const lo = Math.floor(i)
-    const hi = Math.ceil(i)
-    return sorted[lo] + (sorted[hi] - sorted[lo]) * (i - lo)
-  }
-  return (
-    <div className="panel">
-      <div className="field">
-        <label>Series</label>
-        <textarea rows={4} value={raw} onChange={(e) => setRaw(e.target.value)} />
+        ))}
       </div>
       <div className="kpi-grid">
         <div className="kpi">
-          <b>{ready ? m.toFixed(2) : '—'}</b>
-          <span>Mean</span>
+          <b>{formatINR(total)}</b>
+          <span>SUM total</span>
         </div>
         <div className="kpi">
-          <b>{ready ? median(nums).toFixed(2) : '—'}</b>
-          <span>Median</span>
+          <b>{formatINR(avg)}</b>
+          <span>AVERAGE</span>
         </div>
         <div className="kpi">
-          <b>{ready ? sd.toFixed(2) : '—'}</b>
-          <span>σ</span>
+          <b>{withCalc.filter((r) => r.status === 'High').length}</b>
+          <span>High rows (IF)</span>
         </div>
         <div className="kpi">
-          <b>{ready && m ? ((sd / m) * 100).toFixed(1) + '%' : '—'}</b>
-          <span>CV</span>
+          <b>{rows.length}</b>
+          <span>Rows</span>
         </div>
       </div>
-      <div className="kpi-grid">
-        <div className="kpi">
-          <b>{ready ? q(0.25).toFixed(2) : '—'}</b>
-          <span>Q1</span>
-        </div>
-        <div className="kpi">
-          <b>{ready ? q(0.5).toFixed(2) : '—'}</b>
-          <span>Q2</span>
-        </div>
-        <div className="kpi">
-          <b>{ready ? q(0.75).toFixed(2) : '—'}</b>
-          <span>Q3</span>
-        </div>
-        <div className="kpi">
-          <b>{ready ? nums.length : 0}</b>
-          <span>n</span>
-        </div>
-      </div>
-      <svg viewBox="0 0 400 90" style={{ width: '100%', marginTop: 18 }}>
-        {ready &&
-          nums.map((n, i) => {
-            const max = Math.max(...nums)
-            const h = (n / max) * 80
-            const w = 400 / nums.length - 4
-            return (
-              <rect
-                key={i}
-                x={i * (400 / nums.length) + 2}
-                y={85 - h}
-                width={w}
-                height={h}
-                fill="#d4b483"
-                opacity={0.85}
-              />
-            )
-          })}
-      </svg>
-    </div>
-  )
-}
-
-export function BoardStudio() {
-  const max = 10
-  const points = site.semesters
-    .map((row, i) => {
-      const x = 40 + (i * 320) / (site.semesters.length - 1)
-      const y = 220 - (row.sgpa / max) * 180
-      return `${x},${y}`
-    })
-    .join(' ')
-  const honors = site.courses.filter((c) => c.grade === 'O' || c.grade === 'A+').length
-  const credits = site.courses.reduce((sum, course) => sum + course.credits, 0)
-  return (
-    <div className="panel">
-      <div className="kpi-grid">
-        <div className="kpi">
-          <b>{cgpa.toFixed(2)}</b>
-          <span>CGPA</span>
-        </div>
-        <div className="kpi">
-          <b>9.04</b>
-          <span>Peak SGPA</span>
-        </div>
-        <div className="kpi">
-          <b>{honors}</b>
-          <span>O / A+ papers</span>
-        </div>
-        <div className="kpi">
-          <b>{credits}</b>
-          <span>Credits so far</span>
-        </div>
-      </div>
-      <svg viewBox="0 0 400 260" style={{ width: '100%', marginTop: 24 }}>
-        <polyline fill="none" stroke="#d4b483" strokeWidth="3" points={points} />
-        {site.semesters.map((row, i) => {
-          const x = 40 + (i * 320) / (site.semesters.length - 1)
-          const y = 220 - (row.sgpa / max) * 180
+      <svg viewBox="0 0 400 100" style={{ width: '100%', marginTop: 18 }}>
+        {withCalc.map((r, i) => {
+          const h = (r.amount / max) * 80
+          const w = 400 / withCalc.length - 8
           return (
-            <g key={row.sem}>
-              <circle cx={x} cy={y} r="6" fill="#f0d7a3" />
-              <text x={x} y={y - 14} textAnchor="middle" fill="#f4ead8" fontSize="12">
-                {row.sgpa.toFixed(2)}
-              </text>
-              <text x={x} y={244} textAnchor="middle" fill="#8f877b" fontSize="11">
-                S{row.sem}
-              </text>
-            </g>
+            <rect
+              key={r.name}
+              x={i * (400 / withCalc.length) + 4}
+              y={90 - h}
+              width={w}
+              height={h}
+              fill="#d4b483"
+            />
           )
         })}
       </svg>
-      <div className="heat">
-        {site.courses.map((course) => (
-          <article key={course.code + course.name}>
-            <small>
-              SEM {course.sem} · {course.credits} CR
-            </small>
-            <h4>{course.name}</h4>
-            <span className={`grade ${gradeTone(course.grade)}`}>{course.grade}</span>
-          </article>
+    </div>
+  )
+}
+
+/** EASY — SQL Starter */
+export function SqlStarterStudio() {
+  type Row = { id: number; name: string; city: string; amount: number }
+  const table: Row[] = [
+    { id: 1, name: 'Asha Traders', city: 'Hyderabad', amount: 42000 },
+    { id: 2, name: 'Ravi Stores', city: 'Warangal', amount: 18500 },
+    { id: 3, name: 'Nova Mart', city: 'Hyderabad', amount: 61000 },
+    { id: 4, name: 'Sai Depot', city: 'Nizamabad', amount: 9000 },
+    { id: 5, name: 'Orbit Retail', city: 'Hyderabad', amount: 27500 },
+  ]
+  const queries: { title: string; sql: string; run: () => Row[] }[] = [
+    {
+      title: 'All rows',
+      sql: 'SELECT id, name, city, amount\nFROM customers;',
+      run: () => table,
+    },
+    {
+      title: 'Hyderabad only',
+      sql: "SELECT name, city, amount\nFROM customers\nWHERE city = 'Hyderabad';",
+      run: () => table.filter((r) => r.city === 'Hyderabad'),
+    },
+    {
+      title: 'Amount above 25000',
+      sql: 'SELECT name, city, amount\nFROM customers\nWHERE amount > 25000;',
+      run: () => table.filter((r) => r.amount > 25000),
+    },
+  ]
+  const [active, setActive] = useState(0)
+  const result = queries[active].run()
+
+  return (
+    <div className="panel">
+      <p className="disclaimer" style={{ marginTop: 0 }}>
+        SQL idea: SELECT chooses columns · FROM chooses table · WHERE filters rows
+      </p>
+      <div className="chips" style={{ marginBottom: 14 }}>
+        {queries.map((q, i) => (
+          <button
+            key={q.title}
+            type="button"
+            className="chip"
+            style={{ cursor: 'pointer', background: i === active ? 'var(--gold-dim)' : undefined }}
+            onClick={() => setActive(i)}
+          >
+            {q.title}
+          </button>
+        ))}
+      </div>
+      <pre className="books sql-block">{queries[active].sql}</pre>
+      <div className="sheet-table" style={{ marginTop: 16 }}>
+        <div className="sheet-head" style={{ gridTemplateColumns: '1.4fr 1fr 1fr' }}>
+          <span>Name</span>
+          <span>City</span>
+          <span>Amount</span>
+        </div>
+        {result.map((r) => (
+          <div className="sheet-row" style={{ gridTemplateColumns: '1.4fr 1fr 1fr' }} key={r.id}>
+            <span>{r.name}</span>
+            <span>{r.city}</span>
+            <strong>{formatINR(r.amount)}</strong>
+          </div>
         ))}
       </div>
     </div>
   )
 }
 
-export function RatioStudio() {
-  const [ca, setCa] = useState(450000)
-  const [cl, setCl] = useState(180000)
-  const [inventory, setInventory] = useState(90000)
-  const [debt, setDebt] = useState(220000)
-  const [equity, setEquity] = useState(500000)
-  const [sales, setSales] = useState(1200000)
-  const [netProfit, setNetProfit] = useState(96000)
-  const [assets, setAssets] = useState(820000)
-  const current = cl ? ca / cl : 0
-  const quick = cl ? (ca - inventory) / cl : 0
-  const de = equity ? debt / equity : 0
-  const npm = sales ? (netProfit / sales) * 100 : 0
-  const roa = assets ? (netProfit / assets) * 100 : 0
-  return (
-    <div className="panel">
-      <div className="lab-grid">
-        <div className="field"><label>Current assets</label><input type="number" value={ca} onChange={(e) => setCa(Number(e.target.value) || 0)} /></div>
-        <div className="field"><label>Current liabilities</label><input type="number" value={cl} onChange={(e) => setCl(Number(e.target.value) || 0)} /></div>
-        <div className="field"><label>Inventory</label><input type="number" value={inventory} onChange={(e) => setInventory(Number(e.target.value) || 0)} /></div>
-        <div className="field"><label>Debt</label><input type="number" value={debt} onChange={(e) => setDebt(Number(e.target.value) || 0)} /></div>
-        <div className="field"><label>Equity</label><input type="number" value={equity} onChange={(e) => setEquity(Number(e.target.value) || 0)} /></div>
-        <div className="field"><label>Sales</label><input type="number" value={sales} onChange={(e) => setSales(Number(e.target.value) || 0)} /></div>
-        <div className="field"><label>Net profit</label><input type="number" value={netProfit} onChange={(e) => setNetProfit(Number(e.target.value) || 0)} /></div>
-        <div className="field"><label>Total assets</label><input type="number" value={assets} onChange={(e) => setAssets(Number(e.target.value) || 0)} /></div>
-      </div>
-      <div className="kpi-grid">
-        <div className="kpi"><b>{current.toFixed(2)}</b><span>Current ratio</span></div>
-        <div className="kpi"><b>{quick.toFixed(2)}</b><span>Quick ratio</span></div>
-        <div className="kpi"><b>{de.toFixed(2)}</b><span>Debt / Equity</span></div>
-        <div className="kpi"><b>{npm.toFixed(1)}%</b><span>Net margin</span></div>
-      </div>
-      <div className="kpi-grid">
-        <div className="kpi"><b>{roa.toFixed(1)}%</b><span>ROA</span></div>
-        <div className="kpi"><b>{formatINR(ca - cl)}</b><span>Working capital</span></div>
-        <div className="kpi"><b>{formatINR(netProfit)}</b><span>Bottom line</span></div>
-        <div className="kpi"><b>{formatINR(sales)}</b><span>Top line</span></div>
-      </div>
-    </div>
-  )
-}
+/** MEDIUM — Excel Budget Studio */
+export function ExcelBudgetStudio() {
+  const [lines, setLines] = useState([
+    { cat: 'Rent', planned: 15000, actual: 15000 },
+    { cat: 'Groceries', planned: 8000, actual: 9200 },
+    { cat: 'Travel', planned: 3000, actual: 2100 },
+    { cat: 'Study', planned: 4000, actual: 4500 },
+    { cat: 'Misc', planned: 2000, actual: 1800 },
+  ])
+  const enriched = lines.map((l) => {
+    const variance = l.planned - l.actual
+    const used = l.planned ? (l.actual / l.planned) * 100 : 0
+    return { ...l, variance, used }
+  })
+  const planTotal = enriched.reduce((s, l) => s + l.planned, 0)
+  const actualTotal = enriched.reduce((s, l) => s + l.actual, 0)
+  const varianceTotal = planTotal - actualTotal
 
-export function BreakevenStudio() {
-  const [price, setPrice] = useState(499)
-  const [variable, setVariable] = useState(280)
-  const [fixed, setFixed] = useState(180000)
-  const [units, setUnits] = useState(900)
-  const contrib = price - variable
-  const beUnits = contrib > 0 ? fixed / contrib : 0
-  const beSales = beUnits * price
-  const profit = units * contrib - fixed
-  const mos = beSales ? ((units * price - beSales) / (units * price)) * 100 : 0
   return (
     <div className="panel">
-      <div className="lab-grid">
-        <div className="field"><label>Selling price / unit</label><input type="number" value={price} onChange={(e) => setPrice(Number(e.target.value) || 0)} /></div>
-        <div className="field"><label>Variable cost / unit</label><input type="number" value={variable} onChange={(e) => setVariable(Number(e.target.value) || 0)} /></div>
-        <div className="field"><label>Fixed costs</label><input type="number" value={fixed} onChange={(e) => setFixed(Number(e.target.value) || 0)} /></div>
-        <div className="field"><label>Expected units</label><input type="number" value={units} onChange={(e) => setUnits(Number(e.target.value) || 0)} /></div>
-      </div>
-      <div className="kpi-grid">
-        <div className="kpi"><b>{formatINR(contrib)}</b><span>Contribution / unit</span></div>
-        <div className="kpi"><b>{Math.ceil(beUnits)}</b><span>Break-even units</span></div>
-        <div className="kpi"><b>{formatINR(beSales)}</b><span>Break-even sales</span></div>
-        <div className="kpi"><b>{mos.toFixed(1)}%</b><span>Margin of safety</span></div>
-      </div>
-      <div className="kpi-grid">
-        <div className="kpi"><b>{formatINR(profit)}</b><span>Expected profit</span></div>
-        <div className="kpi"><b>{price ? ((contrib / price) * 100).toFixed(1) : 0}%</b><span>CM ratio</span></div>
-        <div className="kpi"><b>{formatINR(units * price)}</b><span>Revenue</span></div>
-        <div className="kpi"><b>{formatINR(units * variable + fixed)}</b><span>Total cost</span></div>
-      </div>
-    </div>
-  )
-}
-
-export function CashflowStudio() {
-  const [inflow, setInflow] = useState(85000)
-  const [outflow, setOutflow] = useState(62000)
-  const [cash, setCash] = useState(140000)
-  const net = inflow - outflow
-  const runway = outflow > 0 && net < 0 ? cash / Math.abs(net) : net >= 0 ? 99 : 0
-  return (
-    <div className="panel">
-      <div className="lab-grid">
-        <div className="field"><label>Monthly inflow</label><input type="number" value={inflow} onChange={(e) => setInflow(Number(e.target.value) || 0)} /></div>
-        <div className="field"><label>Monthly outflow</label><input type="number" value={outflow} onChange={(e) => setOutflow(Number(e.target.value) || 0)} /></div>
-        <div className="field"><label>Opening cash</label><input type="number" value={cash} onChange={(e) => setCash(Number(e.target.value) || 0)} /></div>
-      </div>
-      <div className="kpi-grid">
-        <div className="kpi"><b>{formatINR(net)}</b><span>Net cash / month</span></div>
-        <div className="kpi"><b>{formatINR(cash + net)}</b><span>Closing cash</span></div>
-        <div className="kpi"><b>{net >= 0 ? 'Surplus' : 'Deficit'}</b><span>Signal</span></div>
-        <div className="kpi"><b>{runway >= 99 ? 'Healthy' : runway.toFixed(1) + ' mo'}</b><span>Runway</span></div>
-      </div>
-      <svg viewBox="0 0 400 120" style={{ width: '100%', marginTop: 18 }}>
-        <rect x="40" y={110 - (inflow / Math.max(inflow, outflow, 1)) * 90} width="60" height={(inflow / Math.max(inflow, outflow, 1)) * 90} fill="#d4b483" />
-        <rect x="140" y={110 - (outflow / Math.max(inflow, outflow, 1)) * 90} width="60" height={(outflow / Math.max(inflow, outflow, 1)) * 90} fill="#d98462" />
-        <text x="70" y="118" textAnchor="middle" fill="#8f877b" fontSize="11">In</text>
-        <text x="170" y="118" textAnchor="middle" fill="#8f877b" fontSize="11">Out</text>
-      </svg>
-    </div>
-  )
-}
-
-export function EmiStudio() {
-  const [principal, setPrincipal] = useState(500000)
-  const [rate, setRate] = useState(10.5)
-  const [years, setYears] = useState(5)
-  const n = years * 12
-  const r = rate / 12 / 100
-  const emi = r ? (principal * r * (1 + r) ** n) / ((1 + r) ** n - 1) : principal / n
-  const total = emi * n
-  const interest = total - principal
-  const firstInterest = principal * r
-  const firstPrincipal = emi - firstInterest
-  return (
-    <div className="panel">
-      <div className="lab-grid">
-        <div className="field"><label>Loan amount</label><input type="number" value={principal} onChange={(e) => setPrincipal(Number(e.target.value) || 0)} /></div>
-        <div className="field"><label>Annual rate %</label><input type="number" step="0.1" value={rate} onChange={(e) => setRate(Number(e.target.value) || 0)} /></div>
-        <div className="field"><label>Tenure (years)</label><input type="number" value={years} onChange={(e) => setYears(Number(e.target.value) || 0)} /></div>
-      </div>
-      <div className="kpi-grid">
-        <div className="kpi"><b>{formatINR(emi)}</b><span>EMI</span></div>
-        <div className="kpi"><b>{formatINR(interest)}</b><span>Total interest</span></div>
-        <div className="kpi"><b>{formatINR(total)}</b><span>Total payable</span></div>
-        <div className="kpi"><b>{n}</b><span>Installments</span></div>
-      </div>
-      <p className="books" style={{ marginTop: 18 }}>
-        Month 1 split ≈ Principal {formatINR(firstPrincipal)} · Interest {formatINR(firstInterest)}
+      <p className="disclaimer" style={{ marginTop: 0 }}>
+        Excel idea: Variance = Planned − Actual · % Used = Actual/Planned · Totals like a budget sheet
       </p>
-    </div>
-  )
-}
-
-export function InsuranceStudio() {
-  const [cover, setCover] = useState(2500000)
-  const [age, setAge] = useState(22)
-  const [term, setTerm] = useState(20)
-  const [type, setType] = useState<'life' | 'general'>('life')
-  const base = type === 'life' ? 0.00035 : 0.0011
-  const ageFactor = 1 + Math.max(0, age - 25) * 0.018
-  const termFactor = type === 'life' ? 1 + (term - 10) * 0.012 : 1
-  const annual = cover * base * ageFactor * termFactor
-  return (
-    <div className="panel">
-      <div className="lab-grid">
-        <div className="field">
-          <label>Type</label>
-          <select value={type} onChange={(e) => setType(e.target.value as 'life' | 'general')}>
-            <option value="life">Life (term sketch)</option>
-            <option value="general">General (asset sketch)</option>
-          </select>
+      <div className="sheet-table">
+        <div className="sheet-head sheet-head-5">
+          <span>Category</span>
+          <span>Planned</span>
+          <span>Actual</span>
+          <span>Variance</span>
+          <span>% Used</span>
         </div>
-        <div className="field"><label>Sum assured / cover</label><input type="number" value={cover} onChange={(e) => setCover(Number(e.target.value) || 0)} /></div>
-        <div className="field"><label>Age</label><input type="number" value={age} onChange={(e) => setAge(Number(e.target.value) || 0)} /></div>
-        <div className="field"><label>Term (years)</label><input type="number" value={term} onChange={(e) => setTerm(Number(e.target.value) || 0)} /></div>
+        {enriched.map((l, i) => (
+          <div className="sheet-row sheet-row-5" key={l.cat}>
+            <input
+              value={l.cat}
+              onChange={(e) =>
+                setLines((prev) => prev.map((row, idx) => (idx === i ? { ...row, cat: e.target.value } : row)))
+              }
+            />
+            <input
+              type="number"
+              value={l.planned}
+              onChange={(e) =>
+                setLines((prev) =>
+                  prev.map((row, idx) => (idx === i ? { ...row, planned: Number(e.target.value) || 0 } : row)),
+                )
+              }
+            />
+            <input
+              type="number"
+              value={l.actual}
+              onChange={(e) =>
+                setLines((prev) =>
+                  prev.map((row, idx) => (idx === i ? { ...row, actual: Number(e.target.value) || 0 } : row)),
+                )
+              }
+            />
+            <strong style={{ color: l.variance < 0 ? 'var(--warn)' : 'var(--ok)' }}>{formatINR(l.variance)}</strong>
+            <span>{l.used.toFixed(0)}%</span>
+          </div>
+        ))}
       </div>
       <div className="kpi-grid">
-        <div className="kpi"><b>{formatINR(annual)}</b><span>Est. annual premium</span></div>
-        <div className="kpi"><b>{formatINR(annual / 12)}</b><span>Est. monthly</span></div>
-        <div className="kpi"><b>{formatINR(cover)}</b><span>Cover</span></div>
-        <div className="kpi"><b>{((annual / cover) * 1000).toFixed(2)}</b><span>₹ / ₹1000 cover</span></div>
+        <div className="kpi">
+          <b>{formatINR(planTotal)}</b>
+          <span>Planned total</span>
+        </div>
+        <div className="kpi">
+          <b>{formatINR(actualTotal)}</b>
+          <span>Actual total</span>
+        </div>
+        <div className="kpi">
+          <b>{formatINR(varianceTotal)}</b>
+          <span>Variance</span>
+        </div>
+        <div className="kpi">
+          <b>{varianceTotal >= 0 ? 'Surplus' : 'Deficit'}</b>
+          <span>Signal</span>
+        </div>
       </div>
-      <p className="disclaimer">Educational illustration only — not a quote from any insurer.</p>
     </div>
   )
 }
 
-export function SqlStudio() {
+/** MEDIUM — SQL Analyst */
+export function SqlAnalystStudio() {
   const snippets = [
     {
       title: 'Top customers by sales',
@@ -536,55 +265,278 @@ export function SqlStudio() {
 FROM customers c
 JOIN invoices i ON i.customer_id = c.id
 GROUP BY c.name
-ORDER BY sales DESC
-LIMIT 5;`,
+ORDER BY sales DESC;`,
+      meaning: 'Join customers to invoices, total sales per customer, highest first.',
     },
     {
-      title: 'Overdue debtors',
-      sql: `SELECT name, due_date, amount
-FROM invoices
-WHERE status = 'open' AND due_date < CURRENT_DATE
-ORDER BY due_date;`,
+      title: 'Overdue open invoices',
+      sql: `SELECT c.name, i.amount, i.due_date
+FROM invoices i
+JOIN customers c ON c.id = i.customer_id
+WHERE i.status = 'open'
+  AND i.due_date < CURRENT_DATE
+ORDER BY i.due_date;`,
+      meaning: 'Find unpaid invoices whose due date already passed.',
     },
     {
-      title: 'Low stock products',
-      sql: `SELECT sku, name, qty_on_hand
-FROM products
-WHERE qty_on_hand < reorder_level
-ORDER BY qty_on_hand;`,
+      title: 'City-wise invoice count',
+      sql: `SELECT c.city, COUNT(*) AS bills
+FROM customers c
+JOIN invoices i ON i.customer_id = c.id
+GROUP BY c.city
+ORDER BY bills DESC;`,
+      meaning: 'How many invoices came from each city.',
     },
   ]
   const [active, setActive] = useState(0)
   return (
     <div className="panel">
-      <div className="chips" style={{ marginBottom: 16 }}>
-        {snippets.map((item, i) => (
-          <button key={item.title} type="button" className="chip" onClick={() => setActive(i)} style={{ cursor: 'pointer', background: i === active ? 'var(--gold-dim)' : undefined }}>
-            {item.title}
+      <p className="disclaimer" style={{ marginTop: 0 }}>
+        SQL idea: JOIN links tables · GROUP BY makes totals · ORDER BY sorts answers
+      </p>
+      <div className="chips" style={{ marginBottom: 14 }}>
+        {snippets.map((s, i) => (
+          <button
+            key={s.title}
+            type="button"
+            className="chip"
+            style={{ cursor: 'pointer', background: i === active ? 'var(--gold-dim)' : undefined }}
+            onClick={() => setActive(i)}
+          >
+            {s.title}
           </button>
         ))}
       </div>
       <pre className="books sql-block">{snippets[active].sql}</pre>
-      <div className="heat" style={{ marginTop: 18 }}>
-        <article><small>SCHEMA</small><h4>customers</h4><p>id, name, city, segment</p></article>
-        <article><small>SCHEMA</small><h4>invoices</h4><p>id, customer_id, amount, due_date, status</p></article>
-        <article><small>SCHEMA</small><h4>products</h4><p>sku, name, qty_on_hand, reorder_level</p></article>
+      <p className="contact-note">{snippets[active].meaning}</p>
+      <div className="heat" style={{ marginTop: 16 }}>
+        <article>
+          <small>TABLE</small>
+          <h4>customers</h4>
+          <p>id, name, city</p>
+        </article>
+        <article>
+          <small>TABLE</small>
+          <h4>invoices</h4>
+          <p>id, customer_id, amount, due_date, status</p>
+        </article>
+        <article>
+          <small>KEY</small>
+          <h4>customer_id</h4>
+          <p>Foreign key link</p>
+        </article>
       </div>
     </div>
   )
 }
 
+/** HARD — Power BI Hub */
+const biData = [
+  { region: 'North', month: 'Apr', category: 'Retail', sales: 120000, profit: 18000 },
+  { region: 'North', month: 'May', category: 'Retail', sales: 135000, profit: 21000 },
+  { region: 'North', month: 'Jun', category: 'Wholesale', sales: 150000, profit: 24000 },
+  { region: 'South', month: 'Apr', category: 'Retail', sales: 98000, profit: 14000 },
+  { region: 'South', month: 'May', category: 'Wholesale', sales: 110000, profit: 17000 },
+  { region: 'South', month: 'Jun', category: 'Retail', sales: 125000, profit: 20000 },
+  { region: 'West', month: 'Apr', category: 'Wholesale', sales: 88000, profit: 11000 },
+  { region: 'West', month: 'May', category: 'Retail', sales: 102000, profit: 15000 },
+  { region: 'West', month: 'Jun', category: 'Retail', sales: 118000, profit: 19000 },
+]
+
+export function PowerBiStudio() {
+  const [region, setRegion] = useState('All')
+  const filtered = region === 'All' ? biData : biData.filter((r) => r.region === region)
+  const sales = filtered.reduce((s, r) => s + r.sales, 0)
+  const profit = filtered.reduce((s, r) => s + r.profit, 0)
+  const margin = sales ? (profit / sales) * 100 : 0
+  const months = ['Apr', 'May', 'Jun']
+  const byMonth = months.map((m) => ({
+    m,
+    sales: filtered.filter((r) => r.month === m).reduce((s, r) => s + r.sales, 0),
+  }))
+  const maxM = Math.max(...byMonth.map((x) => x.sales), 1)
+  const cats = ['Retail', 'Wholesale'].map((c) => ({
+    c,
+    sales: filtered.filter((r) => r.category === c).reduce((s, r) => s + r.sales, 0),
+  }))
+
+  return (
+    <div className="panel">
+      <p className="disclaimer" style={{ marginTop: 0 }}>
+        Power BI idea: one filter changes all visuals — KPIs, trend, and breakdown stay in sync
+      </p>
+      <div className="field">
+        <label>Region slicer</label>
+        <select value={region} onChange={(e) => setRegion(e.target.value)}>
+          <option>All</option>
+          <option>North</option>
+          <option>South</option>
+          <option>West</option>
+        </select>
+      </div>
+      <div className="kpi-grid">
+        <div className="kpi">
+          <b>{formatINR(sales)}</b>
+          <span>Sales</span>
+        </div>
+        <div className="kpi">
+          <b>{formatINR(profit)}</b>
+          <span>Profit</span>
+        </div>
+        <div className="kpi">
+          <b>{margin.toFixed(1)}%</b>
+          <span>Margin</span>
+        </div>
+        <div className="kpi">
+          <b>{filtered.length}</b>
+          <span>Rows in view</span>
+        </div>
+      </div>
+      <h4 style={{ marginTop: 22, marginBottom: 8, fontFamily: 'var(--serif)', fontWeight: 500 }}>Trend by month</h4>
+      <svg viewBox="0 0 400 140" style={{ width: '100%' }}>
+        <polyline
+          fill="none"
+          stroke="#d4b483"
+          strokeWidth="3"
+          points={byMonth
+            .map((x, i) => {
+              const px = 40 + i * 140
+              const py = 120 - (x.sales / maxM) * 90
+              return `${px},${py}`
+            })
+            .join(' ')}
+        />
+        {byMonth.map((x, i) => {
+          const px = 40 + i * 140
+          const py = 120 - (x.sales / maxM) * 90
+          return (
+            <g key={x.m}>
+              <circle cx={px} cy={py} r="5" fill="#f0d7a3" />
+              <text x={px} y={136} textAnchor="middle" fill="#8f877b" fontSize="12">
+                {x.m}
+              </text>
+            </g>
+          )
+        })}
+      </svg>
+      <div className="heat" style={{ marginTop: 8 }}>
+        {cats.map((c) => (
+          <article key={c.c}>
+            <small>CATEGORY</small>
+            <h4>{c.c}</h4>
+            <span className="grade">{formatINR(c.sales)}</span>
+          </article>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+/** HARD — Python Analytics Lab */
+export function PythonLabStudio() {
+  const [raw, setRaw] = useState('42000, 38500, null, 51000, 47000, 45500, 62000, 39000, 50500')
+  const cleaned = useMemo(() => {
+    return raw
+      .split(/[,\s]+/)
+      .map((t) => t.trim())
+      .filter((t) => t && t.toLowerCase() !== 'null' && t !== 'na')
+      .map(Number)
+      .filter((n) => Number.isFinite(n))
+  }, [raw])
+
+  const stats = useMemo(() => {
+    if (cleaned.length < 2) return null
+    const m = mean(cleaned)
+    const sorted = [...cleaned].sort((a, b) => a - b)
+    const mid = Math.floor(sorted.length / 2)
+    const median = sorted.length % 2 ? sorted[mid] : (sorted[mid - 1] + sorted[mid]) / 2
+    const variance = mean(cleaned.map((x) => (x - m) ** 2))
+    const sd = Math.sqrt(variance)
+    const min = sorted[0]
+    const max = sorted[sorted.length - 1]
+    const outliers = cleaned.filter((x) => Math.abs(x - m) > 1.5 * sd)
+    return { m, median, sd, min, max, outliers, n: cleaned.length }
+  }, [cleaned])
+
+  const insights = stats
+    ? [
+        `Cleaned series has n=${stats.n} values after removing blanks/nulls.`,
+        `Mean ≈ ${formatINR(stats.m)} and median ≈ ${formatINR(stats.median)}.`,
+        `Spread (σ) ≈ ${formatINR(stats.sd)} — ${stats.sd / stats.m > 0.2 ? 'fairly variable' : 'fairly stable'} set.`,
+        `Range from ${formatINR(stats.min)} to ${formatINR(stats.max)}.`,
+        stats.outliers.length
+          ? `Possible outlier values: ${stats.outliers.map(formatINR).join(', ')}.`
+          : 'No strong outliers under a 1.5σ rule.',
+      ]
+    : ['Need at least 2 valid numbers.']
+
+  const max = stats ? stats.max : 1
+
+  return (
+    <div className="panel">
+      <p className="disclaimer" style={{ marginTop: 0 }}>
+        Python idea: raw data → clean → describe → write insights (like a tiny pandas notebook)
+      </p>
+      <div className="field">
+        <label>Paste numbers (use null for missing)</label>
+        <textarea rows={3} value={raw} onChange={(e) => setRaw(e.target.value)} />
+      </div>
+      <pre className="books sql-block">{`data = [n for n in raw if n is not None]
+mean = sum(data)/len(data)
+# describe → insights`}</pre>
+      {stats && (
+        <div className="kpi-grid">
+          <div className="kpi">
+            <b>{stats.n}</b>
+            <span>Clean n</span>
+          </div>
+          <div className="kpi">
+            <b>{formatINR(stats.m)}</b>
+            <span>Mean</span>
+          </div>
+          <div className="kpi">
+            <b>{formatINR(stats.median)}</b>
+            <span>Median</span>
+          </div>
+          <div className="kpi">
+            <b>{formatINR(stats.sd)}</b>
+            <span>σ</span>
+          </div>
+        </div>
+      )}
+      <svg viewBox="0 0 400 90" style={{ width: '100%', marginTop: 16 }}>
+        {cleaned.map((n, i) => {
+          const h = (n / max) * 75
+          const w = 400 / Math.max(cleaned.length, 1) - 4
+          return (
+            <rect
+              key={i}
+              x={i * (400 / cleaned.length) + 2}
+              y={85 - h}
+              width={w}
+              height={h}
+              fill="#d4b483"
+              opacity={0.85}
+            />
+          )
+        })}
+      </svg>
+      <ul className="bullet-list">
+        {insights.map((line) => (
+          <li key={line}>{line}</li>
+        ))}
+      </ul>
+    </div>
+  )
+}
+
 const studios = {
-  tax: { title: 'Tax Atelier', el: <TaxStudio /> },
-  ledger: { title: 'Ledger Theatre', el: <LedgerStudio /> },
-  stats: { title: 'Statforge', el: <StatsStudio /> },
-  board: { title: 'Insight Board', el: <BoardStudio /> },
-  ratios: { title: 'Ratio Radar', el: <RatioStudio /> },
-  breakeven: { title: 'Margin Map', el: <BreakevenStudio /> },
-  cashflow: { title: 'Cashflow Compass', el: <CashflowStudio /> },
-  emi: { title: 'EMI Lab', el: <EmiStudio /> },
-  insurance: { title: 'Premium Pulse', el: <InsuranceStudio /> },
-  sql: { title: 'Query Forge', el: <SqlStudio /> },
+  'excel-sheet': { el: <ExcelSheetStudio /> },
+  'sql-starter': { el: <SqlStarterStudio /> },
+  'excel-budget': { el: <ExcelBudgetStudio /> },
+  'sql-analyst': { el: <SqlAnalystStudio /> },
+  'powerbi-hub': { el: <PowerBiStudio /> },
+  'python-lab': { el: <PythonLabStudio /> },
 }
 
 export function WorkPage() {
@@ -594,7 +546,7 @@ export function WorkPage() {
   if (!work || !studio) {
     return (
       <section className="studio">
-        <h1>Studio not found.</h1>
+        <h1>Project not found.</h1>
         <Link className="btn ghost" to="/">
           Back home
         </Link>
@@ -615,7 +567,7 @@ export function WorkPage() {
           </ul>
         </div>
         <Link className="btn ghost" to="/#work">
-          Close studio
+          Close project
         </Link>
       </div>
       {studio.el}

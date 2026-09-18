@@ -2,14 +2,10 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://niharprojects.com/</loc></url>
   <url><loc>https://niharprojects.com/resume</loc></url>
-  <url><loc>https://niharprojects.com/work/tax</loc></url>
-  <url><loc>https://niharprojects.com/work/ledger</loc></url>
-  <url><loc>https://niharprojects.com/work/stats</loc></url>
-  <url><loc>https://niharprojects.com/work/board</loc></url>
-  <url><loc>https://niharprojects.com/work/ratios</loc></url>
-  <url><loc>https://niharprojects.com/work/breakeven</loc></url>
-  <url><loc>https://niharprojects.com/work/cashflow</loc></url>
-  <url><loc>https://niharprojects.com/work/emi</loc></url>
-  <url><loc>https://niharprojects.com/work/insurance</loc></url>
-  <url><loc>https://niharprojects.com/work/sql</loc></url>
+  <url><loc>https://niharprojects.com/work/excel-sheet</loc></url>
+  <url><loc>https://niharprojects.com/work/sql-starter</loc></url>
+  <url><loc>https://niharprojects.com/work/excel-budget</loc></url>
+  <url><loc>https://niharprojects.com/work/sql-analyst</loc></url>
+  <url><loc>https://niharprojects.com/work/powerbi-hub</loc></url>
+  <url><loc>https://niharprojects.com/work/python-lab</loc></url>
 </urlset>

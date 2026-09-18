@@ -566,6 +566,33 @@ input[type="range"] {
   overflow-x: auto;
   white-space: pre-wrap;
 }
+.sheet-table { display: grid; gap: 0; border: 1px solid var(--line); }
+.sheet-head, .sheet-row {
+  display: grid;
+  grid-template-columns: 1.4fr 0.7fr 0.8fr 1fr 0.8fr;
+  gap: 8px;
+  padding: 10px 12px;
+  align-items: center;
+}
+.sheet-head-5, .sheet-row-5 {
+  grid-template-columns: 1.2fr 0.9fr 0.9fr 0.9fr 0.7fr;
+}
+.sheet-head {
+  background: var(--ink);
+  border-bottom: 1px solid var(--gold);
+  font-size: .68rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.sheet-row { border-bottom: 1px solid var(--line); }
+.sheet-row:last-child { border-bottom: 0; }
+.sheet-row input {
+  width: 100%;
+  background: var(--ink);
+  border: 1px solid var(--line);
+  padding: 8px 10px;
+}
 
 #about, #academics, #skills, #highlights, #work, #projects, #contact {
   scroll-margin-top: 88px;
@@ -713,6 +740,8 @@ input[type="range"] {
   .chart { padding: 16px; overflow-x: auto; }
   .chart svg { min-width: 520px; height: 240px; }
   .heat { grid-template-columns: 1fr; }
+  .sheet-table { overflow-x: auto; }
+  .sheet-head, .sheet-row, .sheet-head-5, .sheet-row-5 { min-width: 560px; }
   .footer { padding-bottom: 32px; }
   .resume-sheet { padding: 28px 20px; }
   .photo-meta { left: 16px; bottom: 18px; font-size: .62rem; }

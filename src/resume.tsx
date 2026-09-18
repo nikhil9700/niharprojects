@@ -17,10 +17,14 @@ export function ResumePage() {
         <p className="resume-meta">
           {site.city}, {site.region} · {site.phone} · {site.email}
           <br />
-          {site.domain} · LinkedIn: Thakur Nihar Singh
+          {site.domain} · GitHub: niharproject/niharprojects
         </p>
         <h2>Career objective</h2>
         <p>{site.objective}</p>
+        <h2>Core tools</h2>
+        <p>
+          <strong>{site.skills.coreTools.join(' · ')}</strong>
+        </p>
         <h2>Education</h2>
         {site.education.map((item) => (
           <p key={item.id}>
@@ -38,41 +42,37 @@ export function ResumePage() {
         <p>
           {site.semesters.map((row) => `Semester ${row.sem}: SGPA ${row.sgpa.toFixed(2)}`).join(' · ')}
         </p>
-        <h2>Projects</h2>
-        {site.caseStudies.map((item) => (
-          <p key={item.title}>
-            <strong>{item.title}</strong> — {item.period}
+        <h2>Projects (Easy → Hard)</h2>
+        {site.works.map((work) => (
+          <p key={work.slug}>
+            <strong>
+              {work.title} ({work.level} · {work.tool})
+            </strong>
             <br />
-            {item.summary}
+            {work.summary}
             <br />
-            {item.impact.map((line) => `• ${line}`).join(' ')}
-            <br />
-            Stack: {item.stack.join(', ')}
+            {work.bullets.map((b) => `• ${b}`).join(' ')}
           </p>
         ))}
-        <h2>Interactive portfolio studios</h2>
-        <ul>
-          {site.works.map((work) => (
-            <li key={work.slug}>
-              <strong>{work.title}</strong> — {work.summary}
-            </li>
-          ))}
-        </ul>
         <h2>Technical skills</h2>
         <p>
-          <strong>Data:</strong> {site.skills.data.join(', ')}
+          <strong>Excel:</strong> {site.skills.excel.join(', ')}
           <br />
-          <strong>Code:</strong> {site.skills.code.join(', ')}
+          <strong>SQL:</strong> {site.skills.sql.join(', ')}
           <br />
-          <strong>Commerce:</strong> {site.skills.commerce.join(', ')}
+          <strong>Power BI:</strong> {site.skills.powerbi.join(', ')}
+          <br />
+          <strong>Python:</strong> {site.skills.python.join(', ')}
+          <br />
+          <strong>Commerce base:</strong> {site.skills.commerce.join(', ')}
         </p>
-        <h2>Core competencies</h2>
+        <h2>Soft skills</h2>
         <ul>
-          {site.skills.core.map((item) => (
+          {site.skills.soft.map((item) => (
             <li key={item}>{item}</li>
           ))}
         </ul>
-        <h2>Academic highlights</h2>
+        <h2>Highlights</h2>
         <ul>
           {site.highlights.map((item) => (
             <li key={item.title}>
