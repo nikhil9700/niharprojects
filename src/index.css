@@ -630,6 +630,44 @@ input[type="range"] {
   padding-bottom: 6px;
 }
 .resume-sheet p, .resume-sheet li { line-height: 1.6; }
+.resume-header {
+  margin: 10px 0 8px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #d7c8ad;
+}
+.resume-location {
+  color: #5c5348;
+  margin: 0 0 12px !important;
+  font-size: 0.95rem;
+}
+.resume-contact-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px 18px;
+}
+.resume-contact-grid div {
+  min-width: 0;
+  display: grid;
+  gap: 2px;
+}
+.resume-contact-grid span {
+  display: block;
+  font-size: 0.62rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #8a6d3b;
+}
+.resume-contact-grid a {
+  color: #1a1714;
+  text-decoration: none;
+  font-size: 0.92rem;
+  overflow-wrap: anywhere;
+  border-bottom: 1px solid transparent;
+}
+.resume-contact-grid a:hover {
+  border-bottom-color: #8a6d3b;
+  color: #5c4020;
+}
 .resume-meta { color: #5c5348; margin: 8px 0 0; overflow-wrap: anywhere; }
 .resume-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-bottom: 18px; }
 .resume-actions .btn { min-height: 42px; }
@@ -747,6 +785,7 @@ input[type="range"] {
   .sheet-head, .sheet-row, .sheet-head-5, .sheet-row-5 { min-width: 560px; }
   .footer { padding-bottom: 32px; }
   .resume-sheet { padding: 28px 20px; }
+  .resume-contact-grid { grid-template-columns: 1fr; gap: 10px; }
   .photo-meta { left: 16px; bottom: 18px; font-size: .62rem; }
 }
 
@@ -773,6 +812,7 @@ body:has(.resume-page) .footer { display: none; }
   .nav, .cursor, .intro, .footer, .resume-actions { display: none !important; }
   .resume-page { background: white; padding: 0; }
   .resume-sheet { box-shadow: none; }
+  .resume-contact-grid a { color: #1a1714 !important; text-decoration: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {

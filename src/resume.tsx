@@ -14,13 +14,39 @@ export function ResumePage() {
       </div>
       <article className="resume-sheet">
         <h1>{site.name}</h1>
-        <p className="resume-meta">
-          {site.city}, {site.region} · {site.phone} · {site.email}
-          <br />
-          {site.domain} · LinkedIn: {site.linkedin}
-          <br />
-          GitHub: {site.github}
-        </p>
+        <div className="resume-header">
+          <p className="resume-location">
+            {site.city}, {site.region}
+          </p>
+          <div className="resume-contact-grid">
+            <div>
+              <span>Phone</span>
+              <a href={site.phoneHref}>{site.phone}</a>
+            </div>
+            <div>
+              <span>Email</span>
+              <a href={`mailto:${site.email}`}>{site.email}</a>
+            </div>
+            <div>
+              <span>Website</span>
+              <a href={site.domain} target="_blank" rel="noreferrer">
+                niharprojects.com
+              </a>
+            </div>
+            <div>
+              <span>LinkedIn</span>
+              <a href={site.linkedin} target="_blank" rel="noreferrer">
+                thakur-nihar-singh
+              </a>
+            </div>
+            <div>
+              <span>GitHub</span>
+              <a href={site.github} target="_blank" rel="noreferrer">
+                niharproject/niharprojects
+              </a>
+            </div>
+          </div>
+        </div>
         <h2>Career objective</h2>
         <p>{site.objective}</p>
         <h2>Core tools</h2>
