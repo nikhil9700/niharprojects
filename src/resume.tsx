@@ -64,6 +64,8 @@ export function ResumePage() {
           <br />
           <strong>Python:</strong> {site.skills.python.join(', ')}
           <br />
+          <strong>Web:</strong> {site.skills.web.join(', ')}
+          <br />
           <strong>Commerce base:</strong> {site.skills.commerce.join(', ')}
         </p>
         <h2>Soft skills</h2>

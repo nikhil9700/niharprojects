@@ -350,6 +350,9 @@ body::before {
   grid-template-columns: repeat(4, 1fr);
   gap: 22px;
 }
+.skill-grid-5 {
+  grid-template-columns: repeat(5, 1fr);
+}
 .skill-col {
   border-top: 1px solid var(--gold);
   padding-top: 16px;
@@ -635,7 +638,7 @@ input[type="range"] {
 @media (max-width: 1100px) {
   .section, .studio { padding-left: 32px; padding-right: 32px; }
   .hero-copy { padding-left: 32px; padding-right: 28px; }
-  .skill-grid, .lab-grid, .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+  .skill-grid, .skill-grid-5, .lab-grid, .kpi-grid { grid-template-columns: repeat(2, 1fr); }
   .work-row {
     grid-template-columns: 64px 1fr;
     gap: 16px;

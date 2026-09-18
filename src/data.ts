@@ -14,14 +14,14 @@ export const site = {
   domain: 'https://niharprojects.com',
   headline: 'Commerce. Data. Analysis.',
   tagline:
-    'Third-year B.Com student at IIMC, Osmania University — building practical work in Power BI, Excel, SQL, and Python.',
+    'Third-year B.Com student at IIMC, Osmania University — Power BI, Excel, SQL, Python, and a live portfolio website.',
   availability: 'Open for internships in data analytics, BI, and finance operations',
   about: [
-    'I am a third-year B.Com (CBCS) student at the Indian Institute of Management and Commerce, Osmania University. My focus is clear: Power BI, Microsoft Excel, SQL, and Python — the four tools I use to turn commerce data into decisions.',
-    'Accounting and statistics taught me discipline with numbers. These tools help me clean data, query it, model it in Excel, and present it in dashboards. On niharprojects.com I keep six live projects — two easy, two medium, two hard — so skills are clickable, not only listed.',
+    'I am a third-year B.Com (CBCS) student at the Indian Institute of Management and Commerce, Osmania University. My focus is Power BI, Microsoft Excel, SQL, and Python — plus building this portfolio site as a web project so skills are easy to open and check.',
+    'Accounting and statistics taught me discipline with numbers. These tools help me clean data, query it, model it in Excel, and present it in dashboards. On niharprojects.com I keep seven live projects — analytics tools and the website itself — so recruiters can click, not only read.',
   ],
   objective:
-    'Seeking internships and entry-level roles in data analytics, business intelligence, financial analysis, and reporting where I can use Power BI, Excel, SQL, and Python to deliver clear, useful insights.',
+    'Seeking internships and entry-level roles in data analytics, business intelligence, financial analysis, and reporting where I can use Power BI, Excel, SQL, Python, and clear web presentation to deliver useful insights.',
   education: [
     {
       id: 'bcom',
@@ -90,11 +90,12 @@ export const site = {
     { sem: 4, code: '427', name: 'Income Tax', credits: 5, grade: 'A' },
   ],
   skills: {
-    coreTools: ['Power BI', 'Microsoft Excel', 'SQL', 'Python'],
+    coreTools: ['Power BI', 'Microsoft Excel', 'SQL', 'Python', 'Web Development'],
     excel: ['SUM / AVERAGE / IF', 'Pivot-style summaries', 'Charts', 'Budget & variance', 'Data cleaning basics'],
     sql: ['SELECT / WHERE', 'JOIN', 'GROUP BY', 'ORDER BY', 'Business queries on sales & debtors'],
     powerbi: ['KPI cards', 'Interactive filters', 'Trend visuals', 'Dashboard storytelling'],
     python: ['Data cleaning', 'Descriptive stats', 'Insight reports', 'Simple charts from data'],
+    web: ['HTML / CSS / JavaScript', 'React', 'Responsive layout', 'GitHub Pages', 'Custom domain'],
     commerce: ['Financial Accounting', 'Business Statistics', 'RDBMS', 'Income Tax basics'],
     soft: ['Communication', 'Problem solving', 'Attention to detail', 'Fast learning'],
   },
@@ -106,13 +107,13 @@ export const site = {
   stats: [
     { label: 'College CGPA', value: '8.51' },
     { label: 'Peak SGPA', value: '9.04' },
-    { label: 'Live projects', value: '6' },
-    { label: 'Core tools', value: '4' },
+    { label: 'Live projects', value: '7' },
+    { label: 'Core tools', value: '5' },
   ],
   highlights: [
     {
       title: 'Focused toolkit',
-      detail: 'Power BI · Excel · SQL · Python — six projects built only around these tools.',
+      detail: 'Power BI · Excel · SQL · Python · Web — seven live projects on niharprojects.com.',
     },
     {
       title: 'Peak SGPA 9.04',
@@ -124,7 +125,7 @@ export const site = {
     },
     {
       title: 'Easy → Hard ladder',
-      detail: 'Two beginner, two intermediate, two advanced projects so growth is visible.',
+      detail: 'Beginner to advanced analytics projects, plus a full portfolio website.',
     },
     {
       title: 'Intermediate 88.4%',
@@ -132,7 +133,7 @@ export const site = {
     },
     {
       title: 'Portfolio live',
-      detail: 'All six projects clickable on niharprojects.com with resume page.',
+      detail: 'Custom domain, HTTPS, resume page, and clickable project demos.',
     },
   ],
   works: [
@@ -232,6 +233,22 @@ export const site = {
         'Auto-written insight summary',
       ],
     },
+    {
+      slug: 'website',
+      roman: '07',
+      level: 'Hard',
+      tool: 'Web',
+      title: 'niharprojects.com',
+      eyebrow: 'Hard · Web Development',
+      summary:
+        'Personal portfolio website — React site with projects, resume, custom domain, HTTPS, and mobile layout.',
+      stack: ['Web', 'Hard', 'React'],
+      bullets: [
+        'Built and hosted personal brand site on GitHub Pages',
+        'Custom domain niharprojects.com with SSL',
+        'Responsive design for phone, tablet, and desktop',
+      ],
+    },
   ],
   caseStudies: [
     {
@@ -323,6 +340,21 @@ export const site = {
         'Advanced portfolio differentiator',
       ],
       stack: ['Python', 'Pandas thinking', 'Insights'],
+    },
+    {
+      title: 'niharprojects.com — Personal Portfolio Website',
+      role: 'Hard project · Web Development',
+      period: '2026',
+      level: 'Hard',
+      tool: 'Web',
+      summary:
+        'Designed, built, and shipped a full personal website with project demos, resume page, GitHub hosting, and custom domain.',
+      impact: [
+        'Public brand site at niharprojects.com',
+        'HTTPS + responsive mobile/desktop layout',
+        'Resume and seven projects in one place',
+      ],
+      stack: ['React', 'TypeScript', 'CSS', 'GitHub Pages', 'DNS'],
     },
   ],
 } as const

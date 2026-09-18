@@ -124,6 +124,7 @@ function HomePage() {
         ...site.skills.sql,
         ...site.skills.powerbi,
         ...site.skills.python,
+        ...site.skills.web,
         ...site.skills.coreTools,
       ].join('  ·  '),
     [],
@@ -235,7 +236,7 @@ function HomePage() {
 
       <section className="section" id="skills">
         <div className="section-head">
-          <h2>Four tools. Deep practice.</h2>
+          <h2>Five tools. Deep practice.</h2>
           <span className="idx">03 — Skills</span>
         </div>
         <div className="chips" style={{ marginBottom: 28 }}>
@@ -245,7 +246,7 @@ function HomePage() {
             </span>
           ))}
         </div>
-        <div className="skill-grid">
+        <div className="skill-grid skill-grid-5">
           <div className="skill-col">
             <h3>Excel</h3>
             <ul>
@@ -278,6 +279,14 @@ function HomePage() {
               ))}
             </ul>
           </div>
+          <div className="skill-col">
+            <h3>Web</h3>
+            <ul>
+              {site.skills.web.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </div>
         </div>
       </section>
 
@@ -299,7 +308,7 @@ function HomePage() {
 
       <section className="section" id="work">
         <div className="section-head">
-          <h2>Six projects. Easy to hard.</h2>
+          <h2>Seven projects. Easy to hard.</h2>
           <span className="idx">05 — Projects</span>
         </div>
         <div className="work-list">
@@ -363,7 +372,8 @@ function HomePage() {
               {site.availability}. Hyderabad, with remote-ready work.
             </p>
             <p className="contact-note">
-              Six live projects in Power BI, Excel, SQL, and Python — plus resume — at niharprojects.com.
+              Seven live projects — Power BI, Excel, SQL, Python, and this website — plus resume at
+              niharprojects.com.
             </p>
             <div className="contact-actions">
               <a className="btn" href={`mailto:${site.email}`}>

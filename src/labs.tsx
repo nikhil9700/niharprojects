@@ -530,6 +530,68 @@ mean = sum(data)/len(data)
   )
 }
 
+/** HARD — Portfolio Website */
+export function WebsiteStudio() {
+  const stack = [
+    { name: 'React + TypeScript', why: 'Pages, buttons, and live project tools' },
+    { name: 'CSS responsive layout', why: 'Looks good on phone, tablet, desktop' },
+    { name: 'GitHub Pages', why: 'Free hosting that updates when code is pushed' },
+    { name: 'Custom domain + HTTPS', why: 'niharprojects.com with secure lock' },
+    { name: 'Resume route', why: 'Printable resume inside the same site' },
+  ]
+  return (
+    <div className="panel">
+      <p className="disclaimer" style={{ marginTop: 0 }}>
+        Web project idea: this whole website is the project — build, host, connect domain, make it mobile-friendly
+      </p>
+      <div className="kpi-grid">
+        <div className="kpi">
+          <b>7</b>
+          <span>Projects on site</span>
+        </div>
+        <div className="kpi">
+          <b>1</b>
+          <span>Custom domain</span>
+        </div>
+        <div className="kpi">
+          <b>HTTPS</b>
+          <span>Secure certificate</span>
+        </div>
+        <div className="kpi">
+          <b>Live</b>
+          <span>Public URL</span>
+        </div>
+      </div>
+      <div className="heat" style={{ marginTop: 18 }}>
+        {stack.map((item) => (
+          <article key={item.name}>
+            <small>BUILT WITH</small>
+            <h4>{item.name}</h4>
+            <p>{item.why}</p>
+          </article>
+        ))}
+      </div>
+      <div className="contact-actions" style={{ marginTop: 22 }}>
+        <a className="btn" href="https://niharprojects.com" target="_blank" rel="noreferrer">
+          Open live site
+        </a>
+        <a className="btn ghost" href="https://github.com/niharproject/niharprojects" target="_blank" rel="noreferrer">
+          View GitHub
+        </a>
+        <Link className="btn ghost" to="/resume">
+          Open resume page
+        </Link>
+      </div>
+      <ul className="bullet-list">
+        <li>Designed sections: About, Academics, Skills, Projects, Resume, Contact</li>
+        <li>Deployed from GitHub so updates go live after each push</li>
+        <li>DNS pointed from Namecheap to GitHub Pages</li>
+        <li>Interview line: “My portfolio website is also one of my hard web projects.”</li>
+      </ul>
+    </div>
+  )
+}
+
 const studios = {
   'excel-sheet': { el: <ExcelSheetStudio /> },
   'sql-starter': { el: <SqlStarterStudio /> },
@@ -537,6 +599,7 @@ const studios = {
   'sql-analyst': { el: <SqlAnalystStudio /> },
   'powerbi-hub': { el: <PowerBiStudio /> },
   'python-lab': { el: <PythonLabStudio /> },
+  website: { el: <WebsiteStudio /> },
 }
 
 export function WorkPage() {
