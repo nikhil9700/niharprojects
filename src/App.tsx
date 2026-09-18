@@ -399,7 +399,7 @@ function HomePage() {
             </a>
             <a className="contact-row" href={site.linkedin} target="_blank" rel="noreferrer">
               <span className="contact-label">LinkedIn</span>
-              <span className="contact-value">Thakur Nihar Singh</span>
+              <span className="contact-value">linkedin.com/in/thakur-nihar-singh-52766a436</span>
             </a>
             <a className="contact-row" href={site.github} target="_blank" rel="noreferrer">
               <span className="contact-label">GitHub</span>

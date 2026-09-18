@@ -17,7 +17,9 @@ export function ResumePage() {
         <p className="resume-meta">
           {site.city}, {site.region} · {site.phone} · {site.email}
           <br />
-          {site.domain} · GitHub: niharproject/niharprojects
+          {site.domain} · LinkedIn: {site.linkedin}
+          <br />
+          GitHub: {site.github}
         </p>
         <h2>Career objective</h2>
         <p>{site.objective}</p>
